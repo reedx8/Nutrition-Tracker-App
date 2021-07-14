@@ -8,6 +8,7 @@ import {
     Button,
 } from "react-native";
 import { format } from "date-fns";
+import { FloatingAction } from "react-native-floating-action";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -39,7 +40,12 @@ const Home = ({ navigation }) => {
             <View style={styles.successCalender}>
                 <Text style={{ color: "white" }}>(Success Calender Area)</Text>
             </View>
-            <Button title="Add" onPress={() => navigation.navigate("Log")} />
+            <View>
+                <FloatingAction
+                    onPressMain={() => navigation.navigate("Log")}
+                />
+            </View>
+            {/*<Button title="Add" onPress={() => navigation.navigate("Log")} />*/}
         </View>
     );
 };

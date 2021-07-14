@@ -13,29 +13,39 @@ const Log = ({ navigation }) => {
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : null}
-            style={{ flex: 1 }}
+            style={styles.container}
         >
-            <Button
-                style={styles.container}
-                title="Back"
-                onPress={() => navigation.navigate("Home")}
-            />
-            <View style={styles.container}>
-                <Text>Name: </Text>
-                <TextInput
-                    style={{ height: 40 }}
-                    placeholder="Name of food"
-                    keyboardType="default"
+            <View style={styles.inner}>
+                <Button
+                    style={styles.row}
+                    title="Back"
+                    onPress={() => navigation.navigate("Home")}
                 />
-            </View>
-            <View style={{ alignSelf: "center" }}>
-                <Button title="Log" /*onPress={}*/></Button>
+                <View style={styles.row}>
+                    <Text style={{ color: "white" }}>Name: </Text>
+                    <TextInput
+                        style={{ height: 40 }}
+                        placeholder="Name of food"
+                        keyboardType="default"
+                    />
+                </View>
+                <View style={{ alignSelf: "center" }}>
+                    <Button title="Log" /*onPress={}*/></Button>
+                </View>
             </View>
         </KeyboardAvoidingView>
     );
 };
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+    },
+    inner: {
+        flexDirection: "column",
+        backgroundColor: "#000000",
+        justifyContent: "space-around",
+    },
+    row: {
         flexDirection: "row",
     },
 });
