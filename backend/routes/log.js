@@ -28,4 +28,30 @@ router.route("/add").post((req, res) => {
         .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/:id").get((req, res) => {
+    Log.findById(req.params.id)
+        .then((log) => res.json(log))
+        .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/:id").delete((req, res) => {
+    Log.findByIdAndDelete(req.params.id)
+        .then(() => res.json("Log deleted"))
+        .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/update/:id").post((req, res) => {
+    Log.findById(req.params.id).then((log) => {
+        log.username = req.body.username;
+        log.name = req.body.name;
+        log.calories = Number(req.body.calories);
+        log.protein = Number(req.body.protein);
+        log.date = Date.parse(req.body.date);
+
+        log.save()
+            .then(() => res.json("Log updated"))
+            .catch((err) => res.status(400).json("Error: " + err));
+    });
+});
+
 module.exports = router;
