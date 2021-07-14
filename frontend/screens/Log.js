@@ -3,20 +3,40 @@ import {
     View,
     Text,
     KeyboardAvoidingView,
-    Platform
-} from "react-native"
+    Platform,
+    TextInput,
+    StyleSheet,
+    Button,
+} from "react-native";
 
-const Log = () => {
+const Log = ({ navigation }) => {
     return (
-        <KeyboardAvoidingView 
+        <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : null}
             style={{ flex: 1 }}
         >
-            <View>
-                <Text>Home</Text>
+            <Button
+                style={styles.container}
+                title="Back"
+                onPress={() => navigation.navigate("Home")}
+            />
+            <View style={styles.container}>
+                <Text>Name: </Text>
+                <TextInput
+                    style={{ height: 40 }}
+                    placeholder="Name of food"
+                    keyboardType="default"
+                />
+            </View>
+            <View style={{ alignSelf: "center" }}>
+                <Button title="Log" /*onPress={}*/></Button>
             </View>
         </KeyboardAvoidingView>
-    )
-}
-
+    );
+};
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row",
+    },
+});
 export default Log;
