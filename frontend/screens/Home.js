@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Dimensions,
     Button,
+    StatusBar,
 } from "react-native";
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
@@ -16,6 +17,7 @@ const userIcon = require("../assets/userIcon.png");
 const Home = ({ navigation }) => {
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.setTime}>{getTodaysDate()}</Text>
                 <Image style={styles.setUserIcon} source={userIcon} />
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 20,
+        padding: 50,
     },
     calories: {
         flexDirection: "row",

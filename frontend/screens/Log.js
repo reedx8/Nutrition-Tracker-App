@@ -7,6 +7,7 @@ import {
     TextInput,
     StyleSheet,
     Button,
+    StatusBar,
 } from "react-native";
 
 const Log = ({ navigation }) => {
@@ -15,21 +16,16 @@ const Log = ({ navigation }) => {
             behavior={Platform.OS === "ios" ? "padding" : null}
             style={styles.container}
         >
+            <StatusBar barStyle="light-content" />
             <View style={styles.inner}>
+                {/*
                 <Button
-                    style={styles.row}
-                    title="Back"
+                    style={{ flexDirection: "row" }}
+                    title="< Back"
                     onPress={() => navigation.navigate("Home")}
-                />
+                />*/}
                 <View style={styles.entriesRow}>
-                    <Text
-                        style={{
-                            color: "white",
-                            paddingLeft: 10,
-                        }}
-                    >
-                        Food name{" "}
-                    </Text>
+                    <Text style={styles.defaultText}>Food name </Text>
                     <TextInput
                         style={styles.inputBox}
                         placeholder="required"
@@ -37,15 +33,11 @@ const Log = ({ navigation }) => {
                         maxLength={25}
                     />
                 </View>
-                <Text
-                    style={{ color: "white", padding: 10, fontWeight: "bold" }}
-                >
-                    Nutrient Entry
-                </Text>
+                <Text style={styles.titleText}>Nutrient Entry</Text>
                 <Text
                     style={{
                         color: "white",
-                        fontSize: 10,
+                        fontSize: 13,
                         paddingLeft: 10,
                         paddingBottom: 5,
                     }}
@@ -54,14 +46,7 @@ const Log = ({ navigation }) => {
                     can enter in serving size later.
                 </Text>
                 <View style={styles.entriesRow}>
-                    <Text
-                        style={{
-                            color: "white",
-                            paddingLeft: 10,
-                        }}
-                    >
-                        Calories{" "}
-                    </Text>
+                    <Text style={styles.defaultText}>Calories </Text>
                     <TextInput
                         style={styles.inputBox}
                         keyboardType="number-pad"
@@ -72,14 +57,7 @@ const Log = ({ navigation }) => {
                     />
                 </View>
                 <View style={styles.entriesRow}>
-                    <Text
-                        style={{
-                            color: "white",
-                            paddingLeft: 10,
-                        }}
-                    >
-                        Protein{" "}
-                    </Text>
+                    <Text style={styles.defaultText}>Protein </Text>
                     <TextInput
                         style={styles.inputBox}
                         keyboardType="number-pad"
@@ -90,7 +68,12 @@ const Log = ({ navigation }) => {
                     />
                 </View>
                 <View style={{ alignSelf: "center", paddingTop: 10 }}>
-                    <Button title="Log" /*onPress={}*/></Button>
+                    <Button
+                        title="Log food"
+                        style={{
+                            height: 40,
+                        }} /*onPress={}*/
+                    ></Button>
                 </View>
             </View>
         </KeyboardAvoidingView>
@@ -101,7 +84,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#000000",
         flexDirection: "column",
-        paddingTop: 20,
+        paddingTop: 50,
         //justifyContent: "space-between",
         //alignItems: "center",
     },
@@ -110,6 +93,7 @@ const styles = StyleSheet.create({
         //flex: 1,  // This flex will override justifyContent in entriesRow below
         borderBottomColor: "deepskyblue",
         borderBottomWidth: 1,
+        width: "30%",
         color: "white",
         textAlign: "right",
     },
@@ -122,9 +106,18 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: "#1F1F1F",
+        height: "10%",
     },
-    row: {
-        flexDirection: "row",
+    titleText: {
+        fontSize: 30,
+        fontWeight: "bold",
+        color: "white",
+        paddingLeft: 10,
+    },
+    defaultText: {
+        color: "white",
+        paddingLeft: 10,
+        fontSize: 19,
     },
 });
 export default Log;
