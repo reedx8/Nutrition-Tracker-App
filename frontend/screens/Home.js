@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -23,7 +24,25 @@ const Home = ({ navigation }) => {
                 <Image style={styles.setUserIcon} source={userIcon} />
             </View>
             <View style={styles.calories}>
-                <Text style={styles.totalCals}>(Total Calories Area)</Text>
+                {/*<Text style={styles.totalCals}>(Total Calories Area)</Text>*/}
+                <AnimatedCircularProgress
+                    size={160}
+                    width={15}
+                    fill={80}
+                    backgroundWidth={20}
+                    tintColor="deepskyblue"
+                    rotation={360}
+                    lineCap="round"
+                    backgroundColor="#1F1F1F"
+                    //prefill={10}
+                >
+                    {() => (
+                        <Text style={{ color: "white", fontSize: 30 }}>
+                            {" "}
+                            80%
+                        </Text>
+                    )}
+                </AnimatedCircularProgress>
                 <View style={styles.calorieBreakdown}>
                     <View style={styles.meals}>
                         <Text style={{ color: "white" }}>Breakfast</Text>
@@ -45,6 +64,7 @@ const Home = ({ navigation }) => {
             <View>
                 <FloatingAction
                     onPressMain={() => navigation.navigate("Log")}
+                    color="deepskyblue"
                 />
             </View>
             {/*<Button title="Add" onPress={() => navigation.navigate("Log")} />*/}
@@ -67,7 +87,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 50,
+        padding: 20,
     },
     calories: {
         flexDirection: "row",
@@ -99,11 +119,12 @@ const styles = StyleSheet.create({
         alignSelf: "center",
     },
     setTime: {
-        color: "#ffffff",
+        color: "white",
+        fontSize: 25,
     },
     setUserIcon: {
-        height: 24,
-        width: 24,
+        height: 34,
+        width: 34,
     },
 });
 
