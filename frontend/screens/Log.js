@@ -9,6 +9,7 @@ import {
     Button,
     StatusBar,
 } from "react-native";
+import AwesomeButton from "react-native-really-awesome-button";
 
 const Log = ({ navigation }) => {
     return (
@@ -67,13 +68,23 @@ const Log = ({ navigation }) => {
                         textAlign="right"
                     />
                 </View>
-                <View style={{ alignSelf: "center", paddingTop: 10 }}>
-                    <Button
-                        title="Log food"
-                        style={{
-                            height: 40,
-                        }} /*onPress={}*/
-                    ></Button>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignSelf: "center",
+                        paddingTop: 10,
+                    }}
+                >
+                    <AwesomeButton
+                        backgroundColor="deepskyblue"
+                        backgroundDarker="#1F1F1F"
+                        stretch={true}
+                        textSize={18}
+                        textColor="white"
+                        //width="95%"
+                    >
+                        LOG
+                    </AwesomeButton>
                 </View>
             </View>
         </KeyboardAvoidingView>
@@ -99,6 +110,7 @@ const styles = StyleSheet.create({
     },
     inner: {
         //flexDirection: "column",
+        //flex: 1,
         //backgroundColor: "#000000",
         justifyContent: "space-around",
     },

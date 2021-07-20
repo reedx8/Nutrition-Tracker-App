@@ -45,13 +45,22 @@ const Home = ({ navigation }) => {
                 </AnimatedCircularProgress>
                 <View style={styles.calorieBreakdown}>
                     <View style={styles.meals}>
-                        <Text style={{ color: "white" }}>Breakfast</Text>
-                        <Text style={{ color: "white" }}>Lunch</Text>
-                        <Text style={{ color: "white" }}>Dinner</Text>
+                        <Text style={styles.mealsTitle}>Breakfast</Text>
+                        <Text style={styles.mealsTitle}>Lunch</Text>
+                        <Text style={styles.mealsTitle}>Dinner</Text>
                     </View>
                     <View style={styles.meals}>
-                        <Text style={{ color: "white" }}>Snacks</Text>
-                        <Text style={{ color: "white" }}>Exercise</Text>
+                        <Text style={styles.mealsNumbers}>20</Text>
+                        <Text style={styles.mealsNumbers}>30</Text>
+                        <Text style={styles.mealsNumbers}>40</Text>
+                    </View>
+                    <View style={styles.meals}>
+                        <Text style={styles.mealsTitle}>Snacks</Text>
+                        <Text style={styles.mealsTitle}>Exercise</Text>
+                    </View>
+                    <View style={styles.meals}>
+                        <Text style={styles.mealsNumbers}>500</Text>
+                        <Text style={styles.mealsNumbers}>60</Text>
                     </View>
                 </View>
             </View>
@@ -65,6 +74,10 @@ const Home = ({ navigation }) => {
                 <FloatingAction
                     onPressMain={() => navigation.navigate("Log")}
                     color="deepskyblue"
+                    //animated={false}
+                    buttonSize={65}
+                    iconHeight={20}
+                    iconWidth={20}
                 />
             </View>
             {/*<Button title="Add" onPress={() => navigation.navigate("Log")} />*/}
@@ -100,23 +113,36 @@ const styles = StyleSheet.create({
     },
     calorieBreakdown: {
         flexDirection: "column",
-        color: "white",
+        //color: "white",
         width: "60%",
+        margin: 5,
+        backgroundColor: "#1F1F1F",
+        justifyContent: "space-around",
+        borderRadius: 10,
+        padding: 8,
     },
     meals: {
         flexDirection: "row",
         justifyContent: "space-between",
-        color: "white",
+        //color: "white",
     },
     macronutrients: {
         flexDirection: "row",
         padding: 10,
         alignSelf: "center",
+        backgroundColor: "#1F1F1F",
+        borderRadius: 10,
+        width: "100%",
+        margin: 5,
     },
     successCalender: {
         flexDirection: "row",
         padding: 10,
         alignSelf: "center",
+        backgroundColor: "#1F1F1F",
+        borderRadius: 10,
+        width: "100%",
+        margin: 5,
     },
     setTime: {
         color: "white",
@@ -125,6 +151,16 @@ const styles = StyleSheet.create({
     setUserIcon: {
         height: 34,
         width: 34,
+    },
+    mealsTitle: {
+        color: "lightgrey",
+        fontSize: 17,
+        //fontWeight: "bold",
+    },
+    mealsNumbers: {
+        color: "lightgreen",
+        fontSize: 15,
+        fontWeight: "600",
     },
 });
 
