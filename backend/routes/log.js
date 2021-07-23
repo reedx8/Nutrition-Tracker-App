@@ -8,18 +8,18 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    const username = req.body.username;
+    //const username = req.body.username;
     const name = req.body.name;
     const calories = Number(req.body.calories);
     const protein = Number(req.body.protein);
-    const date = Date.parse(req.body.date);
+    //const date = Date.parse(req.body.date);
 
     const newLog = new Log({
-        username,
+        //username,
         name,
         calories,
         protein,
-        date,
+        //date,
     });
 
     newLog
@@ -42,11 +42,11 @@ router.route("/:id").delete((req, res) => {
 
 router.route("/update/:id").post((req, res) => {
     Log.findById(req.params.id).then((log) => {
-        log.username = req.body.username;
+        //log.username = req.body.username;
         log.name = req.body.name;
         log.calories = Number(req.body.calories);
         log.protein = Number(req.body.protein);
-        log.date = Date.parse(req.body.date);
+        //log.date = Date.parse(req.body.date);
 
         log.save()
             .then(() => res.json("Log updated"))

@@ -9,9 +9,38 @@ import {
     Button,
     StatusBar,
 } from "react-native";
+import axios from "axios";
 import AwesomeButton from "react-native-really-awesome-button";
 
 const Log = ({ navigation }) => {
+    /*
+    const [logData, setLogData] = React.useState({
+        foodName: "",
+        calories: 0,
+        protein: 0,
+    });
+    */
+
+    // Declares our state variables using react's Hooks feature
+    const [foodName, setName] = React.useState("");
+    const [calories, setCalories] = React.useState("");
+    const [protein, setProtein] = React.useState("");
+
+    // This frontend function sends a JSON object to backend using axios post method, returning to previous screen afterwards
+    function onSaveLog() {
+        axios
+            .post("http://localhost:5000/log/add", {
+                name: foodName,
+                calories: calories,
+                protein: protein,
+            })
+            .then((res) => console.log(res.data))
+            .catch(function () {
+                console.log("LOG ERROR: Promise rejected");
+            });
+        navigation.goBack();
+    }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : null}
@@ -19,12 +48,6 @@ const Log = ({ navigation }) => {
         >
             <StatusBar barStyle="light-content" />
             <View style={styles.inner}>
-                {/*
-                <Button
-                    style={{ flexDirection: "row" }}
-                    title="< Back"
-                    onPress={() => navigation.navigate("Home")}
-                />*/}
                 <View style={styles.entriesRow}>
                     <Text style={styles.defaultText}>Food name </Text>
                     <TextInput
@@ -32,6 +55,8 @@ const Log = ({ navigation }) => {
                         placeholder="required"
                         keyboardAppearance="dark"
                         maxLength={25}
+                        value={foodName}
+                        onChangeText={setName}
                     />
                 </View>
                 <Text style={styles.titleText}>Nutrient Entry</Text>
@@ -55,6 +80,8 @@ const Log = ({ navigation }) => {
                         keyboardAppearance="dark"
                         maxLength={5}
                         textAlign="right"
+                        value={calories}
+                        onChangeText={setCalories}
                     />
                 </View>
                 <View style={styles.entriesRow}>
@@ -66,6 +93,8 @@ const Log = ({ navigation }) => {
                         keyboardAppearance="dark"
                         maxLength={5}
                         textAlign="right"
+                        value={protein}
+                        onChangeText={setProtein}
                     />
                 </View>
                 <View
@@ -81,7 +110,7 @@ const Log = ({ navigation }) => {
                         stretch={true}
                         textSize={18}
                         textColor="white"
-                        //width="95%"
+                        onPress={() => onSaveLog()}
                     >
                         LOG
                     </AwesomeButton>
