@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import AwesomeButton from "react-native-really-awesome-button";
+import { RadioButton, Caption, Appbar } from "react-native-paper";
 
 const Log = ({ navigation }) => {
     /*
@@ -24,6 +25,8 @@ const Log = ({ navigation }) => {
     const [foodName, setName] = React.useState("");
     const [calories, setCalories] = React.useState("");
     const [protein, setProtein] = React.useState("");
+    const [checked, setChecked] = React.useState("");
+    const [radioValue, setValue] = React.useState("");
 
     // This frontend function sends a JSON object to backend (routes/log.js) using axios post method, returning to previous screen afterwards
     function onSaveLog() {
@@ -45,7 +48,12 @@ const Log = ({ navigation }) => {
             behavior={Platform.OS === "ios" ? "padding" : null}
             style={styles.container}
         >
-            <StatusBar barStyle="light-content" />
+            {/*<StatusBar barStyle="light-content" />*/}
+            <Appbar.Header>
+                <Appbar.BackAction onPress={() => navigation.goBack()} />
+                <Appbar.Content title="Log food" />
+                <Appbar.Action icon="magnify" />
+            </Appbar.Header>
             <View style={styles.inner}>
                 <View style={styles.entriesRow}>
                     <Text style={styles.defaultText}>Food name </Text>
@@ -58,18 +66,51 @@ const Log = ({ navigation }) => {
                         onChangeText={setName}
                     />
                 </View>
+                <RadioButton.Group
+                    onValueChange={(radioValue) => setValue(radioValue)}
+                    value={radioValue}
+                >
+                    <RadioButton.Item
+                        value="bfast"
+                        label="breakfast"
+                        status={checked === "bfast" ? "checked" : "unchecked"}
+                        onPress={() => setChecked("bfast")}
+                        labelStyle={{ color: "white" }}
+                    />
+                    <RadioButton.Item
+                        value="lunch"
+                        label="lunch"
+                        status={checked === "lunch" ? "checked" : "unchecked"}
+                        onPress={() => setChecked("lunch")}
+                        labelStyle={{ color: "white" }}
+                    />
+                    <RadioButton.Item
+                        value="dinner"
+                        label="dinner"
+                        status={checked === "dinner" ? "checked" : "unchecked"}
+                        onPress={() => setChecked("dinner")}
+                        labelStyle={{ color: "white" }}
+                    />
+                    <RadioButton.Item
+                        value="snacks"
+                        label="snacks"
+                        status={checked === "snacks" ? "checked" : "unchecked"}
+                        onPress={() => setChecked("snacks")}
+                        labelStyle={{ color: "white" }}
+                    />
+                </RadioButton.Group>
                 <Text style={styles.titleText}>Nutrient Entry</Text>
-                <Text
+                <Caption
                     style={{
                         color: "white",
-                        fontSize: 13,
+                        //fontSize: 13,
                         paddingLeft: 10,
                         paddingBottom: 5,
                     }}
                 >
                     Enter in values as they appear on the Nutrition Facts. You
                     can enter in serving size later.
-                </Text>
+                </Caption>
                 <View style={styles.entriesRow}>
                     <Text style={styles.defaultText}>Calories </Text>
                     <TextInput
@@ -123,7 +164,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#000000",
         flexDirection: "column",
-        paddingTop: 50,
+        //paddingTop: 50,
         //justifyContent: "space-between",
         //alignItems: "center",
     },
@@ -147,6 +188,14 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         backgroundColor: "#1F1F1F",
         height: "10%",
+        borderRadius: 10,
+    },
+    radioButtonRow: {
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        backgroundColor: "#1F1F1F",
+        height: "8%",
+        color: "white",
     },
     titleText: {
         fontSize: 30,

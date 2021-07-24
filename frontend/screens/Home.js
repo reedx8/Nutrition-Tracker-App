@@ -5,13 +5,13 @@ import {
     Image,
     StyleSheet,
     Dimensions,
-    Button,
     StatusBar,
 } from "react-native";
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useIsFocused } from "@react-navigation/native";
+import { Appbar, Button } from "react-native-paper";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -58,10 +58,16 @@ const Home = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <StatusBar barStyle="light-content" />
+            <Appbar.Header>
+                <Appbar.Action icon="dots-vertical" />
+            </Appbar.Header>
+            {/*<StatusBar barStyle="light-content" />*/}
             <View style={styles.header}>
                 <Text style={styles.setTime}>{getTodaysDate()}</Text>
-                <Image style={styles.setUserIcon} source={userIcon} />
+                <Button icon="account-circle" mode="text">
+                    Profile
+                </Button>
+                {/*<Image style={styles.setUserIcon} source={userIcon} />*/}
             </View>
             <View style={styles.calories}>
                 {/*<Text style={styles.totalCals}>(Total Calories Area)</Text>*/}
