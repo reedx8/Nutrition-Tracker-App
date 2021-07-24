@@ -11,11 +11,51 @@ import {
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { useIsFocused } from "@react-navigation/native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
+const axios = require("axios");
+const url = "http://localhost:5000/log";
 
 const Home = ({ navigation }) => {
+    // To get total calories from the log database, by using React hooks.
+    const [totalCalories, setTotalCalories] = React.useState("");
+    // Using useFocusEffect bellow doesnt consist. refresh each time
+    /*
+    function getCaloriesData() {
+        useFocusEffect(
+            React.useCallback(() => {
+                //alert("screen was focused");
+                let total = 0;
+                axios.get(url).then((response) =>
+                    setTotalCalories(() => {
+                        for (const i in response.data) {
+                            total += response.data[i].calories;
+                        }
+                        return total;
+                    })
+                );
+            }, [total])
+        );
+    }
+    getCaloriesData();
+    */
+
+    // Using useIsFocused() instead of useFocusEffect() works better
+    const isFocused = useIsFocused();
+    let total = 0;
+    if (isFocused) {
+        axios.get(url).then((response) =>
+            setTotalCalories(() => {
+                for (const i in response.data) {
+                    total += response.data[i].calories;
+                }
+                return total;
+            })
+        );
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
@@ -38,8 +78,7 @@ const Home = ({ navigation }) => {
                 >
                     {() => (
                         <Text style={{ color: "white", fontSize: 30 }}>
-                            {" "}
-                            80%
+                            {totalCalories}
                         </Text>
                     )}
                 </AnimatedCircularProgress>

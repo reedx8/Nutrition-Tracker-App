@@ -6,7 +6,6 @@ import {
     Platform,
     TextInput,
     StyleSheet,
-    Button,
     StatusBar,
 } from "react-native";
 import axios from "axios";
@@ -26,7 +25,7 @@ const Log = ({ navigation }) => {
     const [calories, setCalories] = React.useState("");
     const [protein, setProtein] = React.useState("");
 
-    // This frontend function sends a JSON object to backend using axios post method, returning to previous screen afterwards
+    // This frontend function sends a JSON object to backend (routes/log.js) using axios post method, returning to previous screen afterwards
     function onSaveLog() {
         axios
             .post("http://localhost:5000/log/add", {
