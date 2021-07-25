@@ -7,6 +7,7 @@ import {
     TextInput,
     StyleSheet,
     StatusBar,
+    SafeAreaView,
 } from "react-native";
 import axios from "axios";
 import AwesomeButton from "react-native-really-awesome-button";
@@ -44,119 +45,133 @@ const Log = ({ navigation }) => {
     }
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : null}
-            style={styles.container}
-        >
-            {/*<StatusBar barStyle="light-content" />*/}
-            <Appbar.Header>
-                <Appbar.BackAction onPress={() => navigation.goBack()} />
-                <Appbar.Content title="Log food" />
-                <Appbar.Action icon="magnify" />
-            </Appbar.Header>
-            <View style={styles.inner}>
-                <View style={styles.entriesRow}>
-                    <Text style={styles.defaultText}>Food name </Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        placeholder="required"
-                        keyboardAppearance="dark"
-                        maxLength={25}
-                        value={foodName}
-                        onChangeText={setName}
-                    />
-                </View>
-                <RadioButton.Group
-                    onValueChange={(radioValue) => setValue(radioValue)}
-                    value={radioValue}
-                >
-                    <RadioButton.Item
-                        value="bfast"
-                        label="breakfast"
-                        status={checked === "bfast" ? "checked" : "unchecked"}
-                        onPress={() => setChecked("bfast")}
-                        labelStyle={{ color: "white" }}
-                    />
-                    <RadioButton.Item
-                        value="lunch"
-                        label="lunch"
-                        status={checked === "lunch" ? "checked" : "unchecked"}
-                        onPress={() => setChecked("lunch")}
-                        labelStyle={{ color: "white" }}
-                    />
-                    <RadioButton.Item
-                        value="dinner"
-                        label="dinner"
-                        status={checked === "dinner" ? "checked" : "unchecked"}
-                        onPress={() => setChecked("dinner")}
-                        labelStyle={{ color: "white" }}
-                    />
-                    <RadioButton.Item
-                        value="snacks"
-                        label="snacks"
-                        status={checked === "snacks" ? "checked" : "unchecked"}
-                        onPress={() => setChecked("snacks")}
-                        labelStyle={{ color: "white" }}
-                    />
-                </RadioButton.Group>
-                <Text style={styles.titleText}>Nutrient Entry</Text>
-                <Caption
-                    style={{
-                        color: "white",
-                        //fontSize: 13,
-                        paddingLeft: 10,
-                        paddingBottom: 5,
-                    }}
-                >
-                    Enter in values as they appear on the Nutrition Facts. You
-                    can enter in serving size later.
-                </Caption>
-                <View style={styles.entriesRow}>
-                    <Text style={styles.defaultText}>Calories </Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        keyboardType="number-pad"
-                        placeholder="required"
-                        keyboardAppearance="dark"
-                        maxLength={5}
-                        textAlign="right"
-                        value={calories}
-                        onChangeText={setCalories}
-                    />
-                </View>
-                <View style={styles.entriesRow}>
-                    <Text style={styles.defaultText}>Protein </Text>
-                    <TextInput
-                        style={styles.inputBox}
-                        keyboardType="number-pad"
-                        placeholder="optional"
-                        keyboardAppearance="dark"
-                        maxLength={5}
-                        textAlign="right"
-                        value={protein}
-                        onChangeText={setProtein}
-                    />
-                </View>
-                <View
-                    style={{
-                        flexDirection: "row",
-                        alignSelf: "center",
-                        paddingTop: 10,
-                    }}
-                >
-                    <AwesomeButton
-                        backgroundColor="deepskyblue"
-                        backgroundDarker="#1F1F1F"
-                        stretch={true}
-                        textSize={18}
-                        textColor="white"
-                        onPress={() => onSaveLog()}
+        <SafeAreaView style={styles.container}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+            >
+                <StatusBar barStyle="light-content" />
+
+                {/*
+                <Appbar.Header>
+                    <Appbar.Content title="Log food" />
+                    <Appbar.Action icon="magnify" />
+                </Appbar.Header>
+                */}
+                <View style={styles.inner}>
+                    <View style={styles.entriesRow}>
+                        <Text style={styles.defaultText}>Food name </Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder="required"
+                            keyboardAppearance="dark"
+                            maxLength={25}
+                            value={foodName}
+                            onChangeText={setName}
+                            clearButtonMode="always"
+                        />
+                    </View>
+                    <RadioButton.Group
+                        onValueChange={(radioValue) => setValue(radioValue)}
+                        value={radioValue}
                     >
-                        LOG
-                    </AwesomeButton>
+                        <RadioButton.Item
+                            value="bfast"
+                            label="breakfast"
+                            status={
+                                checked === "bfast" ? "checked" : "unchecked"
+                            }
+                            onPress={() => setChecked("bfast")}
+                            labelStyle={{ color: "white" }}
+                        />
+                        <RadioButton.Item
+                            value="lunch"
+                            label="lunch"
+                            status={
+                                checked === "lunch" ? "checked" : "unchecked"
+                            }
+                            onPress={() => setChecked("lunch")}
+                            labelStyle={{ color: "white" }}
+                        />
+                        <RadioButton.Item
+                            value="dinner"
+                            label="dinner"
+                            status={
+                                checked === "dinner" ? "checked" : "unchecked"
+                            }
+                            onPress={() => setChecked("dinner")}
+                            labelStyle={{ color: "white" }}
+                        />
+                        <RadioButton.Item
+                            value="snacks"
+                            label="snacks"
+                            status={
+                                checked === "snacks" ? "checked" : "unchecked"
+                            }
+                            onPress={() => setChecked("snacks")}
+                            labelStyle={{ color: "white" }}
+                        />
+                    </RadioButton.Group>
+                    <Text style={styles.titleText}>Nutrient Entry</Text>
+                    <Caption
+                        style={{
+                            color: "white",
+                            //fontSize: 13,
+                            paddingLeft: 10,
+                            paddingBottom: 5,
+                        }}
+                    >
+                        Enter in values as they appear on the Nutrition Facts.
+                        You can enter in serving size later.
+                    </Caption>
+                    <View style={styles.entriesRow}>
+                        <Text style={styles.defaultText}>Calories </Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            keyboardType="number-pad"
+                            placeholder="required"
+                            keyboardAppearance="dark"
+                            maxLength={5}
+                            textAlign="right"
+                            value={calories}
+                            onChangeText={setCalories}
+                            clearButtonMode="always"
+                        />
+                    </View>
+                    <View style={styles.entriesRow}>
+                        <Text style={styles.defaultText}>Protein </Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            keyboardType="number-pad"
+                            placeholder="optional"
+                            keyboardAppearance="dark"
+                            maxLength={5}
+                            textAlign="right"
+                            value={protein}
+                            onChangeText={setProtein}
+                            clearButtonMode="always"
+                        />
+                    </View>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            alignSelf: "center",
+                            paddingTop: 10,
+                        }}
+                    >
+                        <AwesomeButton
+                            backgroundColor="deepskyblue"
+                            backgroundDarker="#1F1F1F"
+                            stretch={true}
+                            textSize={18}
+                            textColor="white"
+                            onPress={() => onSaveLog()}
+                        >
+                            LOG
+                        </AwesomeButton>
+                    </View>
                 </View>
-            </View>
-        </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
@@ -164,6 +179,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#000000",
         flexDirection: "column",
+
         //paddingTop: 50,
         //justifyContent: "space-between",
         //alignItems: "center",
@@ -182,6 +198,7 @@ const styles = StyleSheet.create({
         //flex: 1,
         //backgroundColor: "#000000",
         justifyContent: "space-around",
+        paddingTop: 20,
     },
     entriesRow: {
         flexDirection: "row",

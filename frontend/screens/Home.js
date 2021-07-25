@@ -6,12 +6,13 @@ import {
     StyleSheet,
     Dimensions,
     StatusBar,
+    SafeAreaView,
 } from "react-native";
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useIsFocused } from "@react-navigation/native";
-import { Appbar, Button } from "react-native-paper";
+import { Appbar, Button, Title, BottomNavigation } from "react-native-paper";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -21,6 +22,7 @@ const url = "http://localhost:5000/log";
 const Home = ({ navigation }) => {
     // To get total calories from the log database, by using React hooks.
     const [totalCalories, setTotalCalories] = React.useState("");
+    const [totalProtein, setTotalProtein] = React.useState("");
     // Using useFocusEffect bellow doesnt consist. refresh each time
     /*
     function getCaloriesData() {
@@ -44,27 +46,45 @@ const Home = ({ navigation }) => {
 
     // Using useIsFocused() instead of useFocusEffect() works better
     const isFocused = useIsFocused();
-    let total = 0;
+    let totalCals = 0;
+    let totalProt = 0;
     if (isFocused) {
         axios.get(url).then((response) =>
             setTotalCalories(() => {
                 for (const i in response.data) {
-                    total += response.data[i].calories;
+                    totalCals += response.data[i].calories;
                 }
-                return total;
+                return totalCals;
+            })
+        );
+        axios.get(url).then((response) =>
+            setTotalProtein(() => {
+                for (const i in response.data) {
+                    totalProt += response.data[i].protein;
+                }
+                return totalProt;
             })
         );
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            {/*
             <Appbar.Header>
-                <Appbar.Action icon="dots-vertical" />
+                <Appbar.Action
+                    icon="dots-vertical"
+                    style={{ marginLeft: "auto" }}
+                />
             </Appbar.Header>
-            {/*<StatusBar barStyle="light-content" />*/}
+            */}
+            <StatusBar barStyle="light-content" />
             <View style={styles.header}>
                 <Text style={styles.setTime}>{getTodaysDate()}</Text>
-                <Button icon="account-circle" mode="text">
+                <Button
+                    icon="account-circle"
+                    mode="text"
+                    labelStyle={{ color: "grey" }}
+                >
                     Profile
                 </Button>
                 {/*<Image style={styles.setUserIcon} source={userIcon} />*/}
@@ -75,7 +95,7 @@ const Home = ({ navigation }) => {
                     size={160}
                     width={15}
                     fill={80}
-                    backgroundWidth={20}
+                    backgroundWidth={22}
                     tintColor="deepskyblue"
                     rotation={360}
                     lineCap="round"
@@ -90,31 +110,58 @@ const Home = ({ navigation }) => {
                 </AnimatedCircularProgress>
                 <View style={styles.calorieBreakdown}>
                     <View style={styles.meals}>
-                        <Text style={styles.mealsTitle}>Breakfast</Text>
-                        <Text style={styles.mealsTitle}>Lunch</Text>
-                        <Text style={styles.mealsTitle}>Dinner</Text>
+                        <Text style={styles.nutrientTitle}>Breakfast</Text>
+                        <Text style={styles.nutrientTitle}>Lunch</Text>
+                        <Text style={styles.nutrientTitle}>Dinner</Text>
                     </View>
                     <View style={styles.meals}>
-                        <Text style={styles.mealsNumbers}>20</Text>
-                        <Text style={styles.mealsNumbers}>30</Text>
-                        <Text style={styles.mealsNumbers}>40</Text>
+                        <Text style={styles.nutrientNumber}>20</Text>
+                        <Text style={styles.nutrientNumber}>30</Text>
+                        <Text style={styles.nutrientNumber}>40</Text>
                     </View>
                     <View style={styles.meals}>
-                        <Text style={styles.mealsTitle}>Snacks</Text>
-                        <Text style={styles.mealsTitle}>Exercise</Text>
+                        <Text style={styles.nutrientTitle}>Snacks</Text>
+                        <Text style={styles.nutrientTitle}>Exercise</Text>
                     </View>
                     <View style={styles.meals}>
-                        <Text style={styles.mealsNumbers}>500</Text>
-                        <Text style={styles.mealsNumbers}>60</Text>
+                        <Text style={styles.nutrientNumber}>500</Text>
+                        <Text style={styles.nutrientNumber}>60</Text>
                     </View>
                 </View>
             </View>
             <View style={styles.macronutrients}>
-                <Text style={{ color: "white" }}>(Macronutrients Area)</Text>
+                <Title style={{ color: "white" }}>Macronutrients</Title>
+                <View style={styles.macrosCol}>
+                    <View style={styles.macrosInnerRow}>
+                        <Text style={styles.nutrientTitle}>Protein</Text>
+                    </View>
+                    <View style={styles.macrosInnerRow}>
+                        <Text style={styles.nutrientNumber}>
+                            {totalProtein}g
+                        </Text>
+                    </View>
+                </View>
+                <View style={styles.macrosCol}>
+                    <View style={styles.macrosInnerRow}>
+                        <Text style={styles.nutrientTitle}>Fats</Text>
+                    </View>
+                    <View style={styles.macrosInnerRow}>
+                        <Text style={styles.nutrientNumber}>0g</Text>
+                    </View>
+                </View>
+                <View style={styles.macrosCol}>
+                    <View style={styles.macrosInnerRow}>
+                        <Text style={styles.nutrientTitle}>Carbs</Text>
+                    </View>
+                    <View style={styles.macrosInnerRow}>
+                        <Text style={styles.nutrientNumber}>0g</Text>
+                    </View>
+                </View>
             </View>
             <View style={styles.successCalender}>
                 <Text style={{ color: "white" }}>(Success Calender Area)</Text>
             </View>
+            {/*}
             <View>
                 <FloatingAction
                     onPressMain={() => navigation.navigate("Log")}
@@ -125,8 +172,9 @@ const Home = ({ navigation }) => {
                     iconWidth={20}
                 />
             </View>
+            */}
             {/*<Button title="Add" onPress={() => navigation.navigate("Log")} />*/}
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -179,6 +227,15 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: "100%",
         margin: 5,
+        justifyContent: "space-between",
+        padding: 20,
+    },
+    macrosCol: {
+        flexDirection: "column",
+    },
+    macrosInnerRow: {
+        flexDirection: "row",
+        color: "red",
     },
     successCalender: {
         flexDirection: "row",
@@ -197,12 +254,12 @@ const styles = StyleSheet.create({
         height: 34,
         width: 34,
     },
-    mealsTitle: {
+    nutrientTitle: {
         color: "lightgrey",
         fontSize: 17,
         //fontWeight: "bold",
     },
-    mealsNumbers: {
+    nutrientNumber: {
         color: "lightgreen",
         fontSize: 15,
         fontWeight: "600",
