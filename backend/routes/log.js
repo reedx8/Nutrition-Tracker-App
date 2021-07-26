@@ -12,6 +12,7 @@ router.route("/add").post((req, res) => {
     const name = req.body.name;
     const calories = Number(req.body.calories);
     const protein = Number(req.body.protein);
+    const mealType = req.body.mealType;
     //const date = Date.parse(req.body.date);
 
     const newLog = new Log({
@@ -19,6 +20,7 @@ router.route("/add").post((req, res) => {
         name,
         calories,
         protein,
+        mealType,
         //date,
     });
 
@@ -46,6 +48,7 @@ router.route("/update/:id").post((req, res) => {
         log.name = req.body.name;
         log.calories = Number(req.body.calories);
         log.protein = Number(req.body.protein);
+        log.mealType = req.body.mealType;
         //log.date = Date.parse(req.body.date);
 
         log.save()

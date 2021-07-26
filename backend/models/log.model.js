@@ -20,6 +20,10 @@ const logSchema = new Schema(
             type: Number,
             required: true,
         },
+        mealType: {
+            type: String,
+            required: true,
+        },
         date: {
             type: Date,
             required: false,

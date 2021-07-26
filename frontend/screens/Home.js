@@ -23,6 +23,11 @@ const Home = ({ navigation }) => {
     // To get total calories from the log database, by using React hooks.
     const [totalCalories, setTotalCalories] = React.useState("");
     const [totalProtein, setTotalProtein] = React.useState("");
+    const [breakfastCalories, setBreakfast] = React.useState("");
+    const [lunchCalories, setLunch] = React.useState("");
+    const [dinnerCalories, setDinner] = React.useState("");
+    const [snacksCalories, setSnacks] = React.useState("");
+
     // Using useFocusEffect bellow doesnt consist. refresh each time
     /*
     function getCaloriesData() {
@@ -46,9 +51,13 @@ const Home = ({ navigation }) => {
 
     // Using useIsFocused() instead of useFocusEffect() works better
     const isFocused = useIsFocused();
+    //let totalProt = 0;
+    let total = 0;
     let totalCals = 0;
-    let totalProt = 0;
+
     if (isFocused) {
+        {
+            /*
         axios.get(url).then((response) =>
             setTotalCalories(() => {
                 for (const i in response.data) {
@@ -65,6 +74,70 @@ const Home = ({ navigation }) => {
                 return totalProt;
             })
         );
+        */
+        }
+        axios.get(url).then((response) => {
+            {
+                /*}
+            setTotalCalories(() => {
+                for (const i in response.data) {
+                    total += response.data[i].calories;
+                }
+                return total;
+            });
+            total = 0;
+            */
+            }
+            setTotalProtein(() => {
+                for (const i in response.data) {
+                    total += response.data[i].protein;
+                }
+                return total;
+            });
+            total = 0;
+            setBreakfast(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "breakfast") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            total = 0;
+            setLunch(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "lunch") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            total = 0;
+            setDinner(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "dinner") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            total = 0;
+            setSnacks(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "snacks") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            setTotalCalories(() => {
+                return totalCals;
+            });
+        });
     }
 
     return (
@@ -115,17 +188,25 @@ const Home = ({ navigation }) => {
                         <Text style={styles.nutrientTitle}>Dinner</Text>
                     </View>
                     <View style={styles.meals}>
-                        <Text style={styles.nutrientNumber}>20</Text>
-                        <Text style={styles.nutrientNumber}>30</Text>
-                        <Text style={styles.nutrientNumber}>40</Text>
+                        <Text style={styles.nutrientNumber}>
+                            {breakfastCalories}
+                        </Text>
+                        <Text style={styles.nutrientNumber}>
+                            {lunchCalories}
+                        </Text>
+                        <Text style={styles.nutrientNumber}>
+                            {dinnerCalories}
+                        </Text>
                     </View>
                     <View style={styles.meals}>
                         <Text style={styles.nutrientTitle}>Snacks</Text>
                         <Text style={styles.nutrientTitle}>Exercise</Text>
                     </View>
                     <View style={styles.meals}>
-                        <Text style={styles.nutrientNumber}>500</Text>
-                        <Text style={styles.nutrientNumber}>60</Text>
+                        <Text style={styles.nutrientNumber}>
+                            {snacksCalories}
+                        </Text>
+                        <Text style={styles.nutrientNumber}>0</Text>
                     </View>
                 </View>
             </View>

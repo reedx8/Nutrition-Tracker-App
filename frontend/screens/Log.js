@@ -27,7 +27,7 @@ const Log = ({ navigation }) => {
     const [calories, setCalories] = React.useState("");
     const [protein, setProtein] = React.useState("");
     const [checked, setChecked] = React.useState("");
-    const [radioValue, setValue] = React.useState("");
+    const [mealType, setValue] = React.useState("");
 
     // This frontend function sends a JSON object to backend (routes/log.js) using axios post method, returning to previous screen afterwards
     function onSaveLog() {
@@ -36,6 +36,7 @@ const Log = ({ navigation }) => {
                 name: foodName,
                 calories: calories,
                 protein: protein,
+                mealType: mealType,
             })
             .then((res) => console.log(res.data))
             .catch(function () {
@@ -71,44 +72,50 @@ const Log = ({ navigation }) => {
                         />
                     </View>
                     <RadioButton.Group
-                        onValueChange={(radioValue) => setValue(radioValue)}
-                        value={radioValue}
+                        onValueChange={(mealType) => setValue(mealType)}
+                        value={mealType}
                     >
                         <RadioButton.Item
-                            value="bfast"
-                            label="breakfast"
+                            value="breakfast"
+                            label="Breakfast"
                             status={
-                                checked === "bfast" ? "checked" : "unchecked"
+                                checked === "breakfast"
+                                    ? "checked"
+                                    : "unchecked"
                             }
-                            onPress={() => setChecked("bfast")}
+                            onPress={() => setChecked(value)}
                             labelStyle={{ color: "white" }}
+                            color="deepskyblue"
                         />
                         <RadioButton.Item
                             value="lunch"
-                            label="lunch"
+                            label="Lunch"
                             status={
                                 checked === "lunch" ? "checked" : "unchecked"
                             }
-                            onPress={() => setChecked("lunch")}
+                            onPress={() => setChecked(value)}
                             labelStyle={{ color: "white" }}
+                            color="deepskyblue"
                         />
                         <RadioButton.Item
                             value="dinner"
-                            label="dinner"
+                            label="Dinner"
                             status={
                                 checked === "dinner" ? "checked" : "unchecked"
                             }
-                            onPress={() => setChecked("dinner")}
+                            onPress={() => setChecked(value)}
                             labelStyle={{ color: "white" }}
+                            color="deepskyblue"
                         />
                         <RadioButton.Item
                             value="snacks"
-                            label="snacks"
+                            label="Snacks"
                             status={
                                 checked === "snacks" ? "checked" : "unchecked"
                             }
-                            onPress={() => setChecked("snacks")}
+                            onPress={() => setChecked(value)}
                             labelStyle={{ color: "white" }}
+                            color="deepskyblue"
                         />
                     </RadioButton.Group>
                     <Text style={styles.titleText}>Nutrient Entry</Text>
@@ -204,7 +211,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: "#1F1F1F",
-        height: "10%",
+        height: "9%",
         borderRadius: 10,
     },
     radioButtonRow: {
