@@ -92,4 +92,61 @@ router.route("/signup").post((req, res) => {
     */
 });
 
+//signin user
+router.route("/signin").post((req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (username == "" || password == "") {
+        res.json({
+            status: "FAILED",
+            message: "Empty credentials supplied",
+        });
+    } else {
+        User.find({ username })
+            .then((data) => {
+                if (data.length) {
+                    //user exists
+                    const hashedPassword = data[0].password;
+                    bcrypt
+                        .compare(password, hashedPassword)
+                        .then((result) => {
+                            if (result) {
+                                //password matched
+                                res.json({
+                                    status: "SUCCESS",
+                                    message: "Signin successfull",
+                                    data: data,
+                                });
+                            } else {
+                                res.json({
+                                    status: "FAILED",
+                                    message: "Invalid password entered",
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            res.json({
+                                status: "FAILED",
+                                message:
+                                    "An error occured while comparing passwords",
+                            });
+                        });
+                } else {
+                    res.json({
+                        status: "FAILED",
+                        message: "Invalid credentials entered",
+                    });
+                }
+            })
+            .catch((error) => {
+                res.json({
+                    status: "FAILED",
+                    message:
+                        "An error occured while checking for existing user",
+                });
+            });
+    }
+});
+
 module.exports = router;
