@@ -18,18 +18,18 @@ router.route("/").get((req, res) => {
 
 // Signup user (post request)
 router.route("/signup").post((req, res) => {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
-    // TODO: Add reg express tests for username and password
-    if (username == "" || password == "") {
+    // TODO: Add reg express tests for email and password
+    if (email == "" || password == "") {
         res.json({
             status: "FAILED",
             message: "Empty input fields",
         });
     } else {
         // Checking if user already exists
-        User.find({ username })
+        User.find({ email })
             .then((result) => {
                 if (result.length) {
                     // user already exists
@@ -45,7 +45,7 @@ router.route("/signup").post((req, res) => {
                         .hash(password, saltRounds)
                         .then((hashedPassword) => {
                             const newUser = new User({
-                                username,
+                                email,
                                 password: hashedPassword,
                             });
 
@@ -84,7 +84,7 @@ router.route("/signup").post((req, res) => {
     }
 
     /*
-    const newUser = new User({ username, password });
+    const newUser = new User({ email, password });
     newUser
         .save()
         .then(() => res.json("User added"))
@@ -94,16 +94,16 @@ router.route("/signup").post((req, res) => {
 
 //signin user
 router.route("/signin").post((req, res) => {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
-    if (username == "" || password == "") {
+    if (email == "" || password == "") {
         res.json({
             status: "FAILED",
             message: "Empty credentials supplied",
         });
     } else {
-        User.find({ username })
+        User.find({ email })
             .then((data) => {
                 if (data.length) {
                     //user exists
