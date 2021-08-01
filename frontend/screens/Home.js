@@ -18,6 +18,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
 const axios = require("axios");
 const url = "http://localhost:5000/log";
+const caloriesRDA = 2500;
 
 const Home = ({ navigation }) => {
     // To get total calories from the log database, by using React hooks.
@@ -167,7 +168,7 @@ const Home = ({ navigation }) => {
                 <AnimatedCircularProgress
                     size={160}
                     width={15}
-                    fill={80}
+                    fill={(totalCalories / caloriesRDA) * 100}
                     backgroundWidth={22}
                     tintColor="deepskyblue"
                     rotation={360}
@@ -176,8 +177,13 @@ const Home = ({ navigation }) => {
                     //prefill={10}
                 >
                     {() => (
-                        <Text style={{ color: "white", fontSize: 30 }}>
-                            {totalCalories}
+                        <Text
+                            style={{
+                                color: "white",
+                                fontSize: 20,
+                            }}
+                        >
+                            {getRemainingCalories(totalCalories)} cals left
                         </Text>
                     )}
                 </AnimatedCircularProgress>
@@ -259,6 +265,15 @@ const Home = ({ navigation }) => {
     );
 };
 
+function getRemainingCalories(calories) {
+    //let caloriesRDA = 2500;
+
+    if (calories >= caloriesRDA) {
+        return 0;
+    } else {
+        return caloriesRDA - calories;
+    }
+}
 function getTodaysDate() {
     let todaysDate = format(new Date(), "EEEE, do MMMM");
     return todaysDate;
