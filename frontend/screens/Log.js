@@ -60,7 +60,7 @@ const Log = ({ navigation }) => {
                 */}
                 <View style={styles.inner}>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Food name </Text>
+                        <Text style={styles.defaultText}>Food name: </Text>
                         <TextInput
                             style={styles.inputBox}
                             placeholder="required"
@@ -131,7 +131,7 @@ const Log = ({ navigation }) => {
                         You can enter in serving size later.
                     </Caption>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Calories </Text>
+                        <Text style={styles.defaultText}>Calories: </Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -145,7 +145,7 @@ const Log = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Protein </Text>
+                        <Text style={styles.defaultText}>Protein: </Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
         //alignItems: "center",
     },
     inputBox: {
-        margin: 5,
+        margin: 4,
         //flex: 1,  // This flex will override justifyContent in entriesRow below
         borderBottomColor: "deepskyblue",
         borderBottomWidth: 1,
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#1F1F1F",
         height: "9%",
         borderRadius: 10,
+        //padding: 5,
     },
     radioButtonRow: {
         flexDirection: "column",
@@ -229,8 +230,9 @@ const styles = StyleSheet.create({
     },
     defaultText: {
         color: "white",
-        paddingLeft: 10,
+        //paddingLeft: 10,
         fontSize: 19,
+        padding: 10, // centers only text in row
     },
 });
 export default Log;

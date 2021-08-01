@@ -317,7 +317,6 @@ const styles = StyleSheet.create({
     },
     macronutrients: {
         flexDirection: "row",
-        padding: 10,
         alignSelf: "center",
         backgroundColor: "#1F1F1F",
         borderRadius: 10,
