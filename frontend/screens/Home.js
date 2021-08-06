@@ -17,7 +17,8 @@ import { Appbar, Button, Title, BottomNavigation } from "react-native-paper";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
 const axios = require("axios");
-const url = "http://localhost:5000/log";
+const url = "http://localhost:5000/log/";
+//const url = "http://localhost:5000/log/:user";
 const caloriesRDA = 2500;
 
 const Home = ({ navigation }) => {
@@ -29,27 +30,7 @@ const Home = ({ navigation }) => {
     const [dinnerCalories, setDinner] = React.useState("");
     const [snacksCalories, setSnacks] = React.useState("");
 
-    // Using useFocusEffect bellow doesnt consist. refresh each time
-    /*
-    function getCaloriesData() {
-        useFocusEffect(
-            React.useCallback(() => {
-                //alert("screen was focused");
-                let total = 0;
-                axios.get(url).then((response) =>
-                    setTotalCalories(() => {
-                        for (const i in response.data) {
-                            total += response.data[i].calories;
-                        }
-                        return total;
-                    })
-                );
-            }, [total])
-        );
-    }
-    getCaloriesData();
-    */
-
+    // Using useFocusEffect doesnt consist. refresh each time
     // Using useIsFocused() instead of useFocusEffect() works better
     const isFocused = useIsFocused();
     //let totalProt = 0;

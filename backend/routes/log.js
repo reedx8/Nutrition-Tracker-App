@@ -13,6 +13,7 @@ router.route("/add").post((req, res) => {
     const calories = Number(req.body.calories);
     const protein = Number(req.body.protein);
     const mealType = req.body.mealType;
+    const user = req.body.user;
     //const date = Date.parse(req.body.date);
 
     const newLog = new Log({
@@ -21,6 +22,7 @@ router.route("/add").post((req, res) => {
         calories,
         protein,
         mealType,
+        user,
         //date,
     });
 
@@ -28,6 +30,18 @@ router.route("/add").post((req, res) => {
         .save()
         .then(() => res.json("Log added"))
         .catch((err) => res.status(400).json("Error: " + err));
+});
+/*
+router.route("/:user").get(async (req, res) => {
+    const logs = await Log.find({ user: req.params.user });
+    const totalCalos = logs.reduce((total, log) => total + log.calories, 0);
+    res.json({ totalCalos });
+});
+*/
+router.route("/:user").get((req, res) => {
+    Log.find({ user: req.params.user })
+        .then((log) => res.json(log))
+        .catch((err) => res.status(400).json("Error!!: " + err));
 });
 
 router.route("/:id").get((req, res) => {
