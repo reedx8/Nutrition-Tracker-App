@@ -229,7 +229,7 @@ const Home = ({ navigation }) => {
             <View style={styles.successCalender}>
                 <Text style={{ color: "white" }}>(Success Calender Area)</Text>
             </View>
-            {/*}
+            {/*
             <View>
                 <FloatingAction
                     onPressMain={() => navigation.navigate("Log")}
@@ -241,7 +241,14 @@ const Home = ({ navigation }) => {
                 />
             </View>
             */}
-            {/*<Button title="Add" onPress={() => navigation.navigate("Log")} />*/}
+            <Button
+                onPress={() => navigation.navigate("Signin")}
+                color="white"
+                mode="contained"
+                dark={false}
+            >
+                (Sign in screen)
+            </Button>
         </SafeAreaView>
     );
 };

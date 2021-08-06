@@ -11,14 +11,115 @@ import {
 } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Signin } from "./screens";
 import { Home } from "./screens";
 import { Log } from "./screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Button } from "react-native-paper";
 
-//const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
+// Nested navigators (homeTabView nested below) IOT have a signin screen first without bottom tabs showing
+export default function App() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator
+                screenOptions={{ headerShown: false }}
+                initialRouteName={"Signin"}
+            >
+                <Stack.Screen name="Signin" component={Signin} />
+                <Stack.Screen name="HomeTabs" component={homeTabView} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}
+
+// Home view after signin, with bottom tabs showing
+function homeTabView() {
+    return (
+        <Tab.Navigator
+            tabBarOptions={{
+                showLabel: false,
+                style: {
+                    position: "absolute",
+                    bottom: 25,
+                    left: 20,
+                    right: 20,
+                    elevation: 0,
+                    backgroundColor: "#1F1F1F",
+                    borderRadius: 12,
+                    height: 78,
+                    ...styles.shadow,
+                },
+            }}
+        >
+            <Tab.Screen
+                name="Home"
+                component={Home}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View
+                            style={{
+                                alignItems: "center",
+                                justifyContent: "center",
+                                top: 10,
+                            }}
+                        >
+                            <Button
+                                icon="home"
+                                labelStyle={{
+                                    fontSize: 30,
+                                    color: focused ? "black" : "grey",
+                                }}
+                            >
+                                <Text style={{ fontSize: 16 }}>Home</Text>
+                            </Button>
+                        </View>
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Log"
+                component={Log}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <Button
+                            icon="plus-box"
+                            labelStyle={{ fontSize: 70, color: "#df5234" }}
+                        ></Button>
+                    ),
+                    tabBarButton: (props) => <CustomTabBarButton {...props} />,
+                }}
+            />
+            <Tab.Screen
+                name="Settings"
+                component={Home}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <View
+                            style={{
+                                alignItems: "center",
+                                justifyContent: "center",
+                                top: 10,
+                            }}
+                        >
+                            <Button
+                                icon="menu-open"
+                                labelStyle={{
+                                    fontSize: 30,
+                                    color: focused ? "black" : "grey",
+                                }}
+                            >
+                                <Text style={{ fontSize: 16 }}>Settings</Text>
+                            </Button>
+                        </View>
+                    ),
+                }}
+            />
+        </Tab.Navigator>
+    );
+}
 const CustomTabBarButton = ({ children, onPress }) => (
     <TouchableOpacity
         style={{
@@ -41,129 +142,6 @@ const CustomTabBarButton = ({ children, onPress }) => (
         </View>
     </TouchableOpacity>
 );
-
-export default function App() {
-    return (
-        <NavigationContainer>
-            <Tab.Navigator
-                tabBarOptions={{
-                    showLabel: false,
-                    style: {
-                        position: "absolute",
-                        bottom: 25,
-                        left: 20,
-                        right: 20,
-                        elevation: 0,
-                        backgroundColor: "#1F1F1F",
-                        borderRadius: 12,
-                        height: 78,
-                        ...styles.shadow,
-                    },
-                }}
-            >
-                <Tab.Screen
-                    name="Home"
-                    component={Home}
-                    options={{
-                        tabBarIcon: ({ focused }) => (
-                            <View
-                                style={{
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    top: 10,
-                                }}
-                            >
-                                <Button
-                                    icon="home"
-                                    labelStyle={{
-                                        fontSize: 30,
-                                        color: focused ? "black" : "grey",
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 16 }}>Home</Text>
-                                </Button>
-                            </View>
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Log"
-                    component={Log}
-                    options={{
-                        tabBarIcon: ({ focused }) => (
-                            <Button
-                                icon="plus-box"
-                                labelStyle={{ fontSize: 70, color: "#df5234" }}
-                            ></Button>
-                        ),
-                        tabBarButton: (props) => (
-                            <CustomTabBarButton {...props} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Settings"
-                    component={Home}
-                    options={{
-                        tabBarIcon: ({ focused }) => (
-                            <View
-                                style={{
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    top: 10,
-                                }}
-                            >
-                                <Button
-                                    icon="menu-open"
-                                    labelStyle={{
-                                        fontSize: 30,
-                                        color: focused ? "black" : "grey",
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 16 }}>
-                                        Settings
-                                    </Text>
-                                </Button>
-                            </View>
-                        ),
-                    }}
-                />
-            </Tab.Navigator>
-            {/*
-            <Stack.Navigator
-                screenOptions={{ headerShown: false }}
-                initialRouteName={"Home"}
-            >
-                <Stack.Screen
-                    name="Home"
-                    component={Home}
-                    options={{
-                        title: "Home",
-                        headerStyle: {
-                            backgroundColor: "#1F1F1F",
-                        },
-                        headerTitleStyle: {
-                            color: "white",
-                            fontWeight: "bold",
-                        },
-                    }}
-                />
-                <Stack.Screen
-                    name="Log"
-                    component={Log}
-                    options={{
-                        headerStyle: { backgroundColor: "#1F1F1F" },
-                        headerTitleStyle: {
-                            color: "white",
-                            fontWeight: "bold",
-                        },
-                    }}
-                />
-            </Stack.Navigator>
-                */}
-        </NavigationContainer>
-    );
-}
 
 // TODO: Put into its own file, global app styles should be navigationcontainer prop
 const styles = StyleSheet.create({
