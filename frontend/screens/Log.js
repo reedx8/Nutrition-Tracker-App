@@ -40,9 +40,9 @@ const Log = ({ navigation }) => {
             })
             .then((res) => console.log(res.data))
             .catch(function () {
-                console.log("LOG ERROR: Promise rejected");
+                console.log("LOG ERROR: Promise rejected (log)");
             });
-        navigation.goBack();
+        navigation.goBack(); // TODO: May want navigation.navigate("HomeTabs") instead
     }
 
     return (

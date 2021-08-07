@@ -3,6 +3,7 @@ TODO: add update and delete routes
 */
 const router = require("express").Router();
 let User = require("../models/user.model");
+const mongoose = require("mongoose");
 
 // Pasword handler
 const bcrypt = require("bcrypt");
@@ -45,6 +46,7 @@ router.route("/signup").post((req, res) => {
                         .hash(password, saltRounds)
                         .then((hashedPassword) => {
                             const newUser = new User({
+                                _id: new mongoose.Types.ObjectId(),
                                 email,
                                 password: hashedPassword,
                             });
@@ -62,7 +64,8 @@ router.route("/signup").post((req, res) => {
                                     res.json({
                                         status: "FAILED",
                                         message:
-                                            "Error occured while saving user",
+                                            "Error occured while saving user: " +
+                                            error,
                                     });
                                 });
                         })

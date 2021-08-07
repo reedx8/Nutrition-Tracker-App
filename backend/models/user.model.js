@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
     {
+        _id: Schema.Types.ObjectId,
         email: {
             type: String,
             required: true,

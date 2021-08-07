@@ -15,6 +15,7 @@ router.route("/add").post((req, res) => {
     const mealType = req.body.mealType;
     const user = req.body.user;
     //const date = Date.parse(req.body.date);
+    //console.log(user);
 
     const newLog = new Log({
         //username,
@@ -25,6 +26,8 @@ router.route("/add").post((req, res) => {
         user,
         //date,
     });
+    //newLog.user = req.user.id;
+    //console.log(newLog);
 
     newLog
         .save()
