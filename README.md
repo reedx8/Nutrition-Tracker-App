@@ -1,5 +1,7 @@
 # Nutrition-Tracker-App
-iOS app made with React native using npm package manager
+iOS app made with React native.
+
+Dependancy list: TBD
 
 ## To run app:
   1. `expo build:ios` to compile.
