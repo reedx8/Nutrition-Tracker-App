@@ -5,6 +5,8 @@ TODO: add update and delete routes
 const router = require("express").Router();
 let User = require("../models/user.model");
 const mongoose = require("mongoose");
+const passport = require("passport");
+//require("../passportConfig")(passport);
 
 // Pasword handler
 const bcrypt = require("bcrypt");
@@ -98,10 +100,39 @@ router.route("/signup").post((req, res) => {
 });
 
 //signin user
-router.route("/signin").post((req, res) => {
+router.route("/signin").post((req, res, next) => {
+    // TODO: Add reg express tests for email and password
+    /* 
+    passport.authenticate sends the req.body.email and password 
+    to passportConfig.js's passport.use()
+    */
+    passport.authenticate("local", (error, user, info) => {
+        if (error) {
+            res.json({
+                status: "FAILED",
+                message: error,
+            });
+        }
+        if (!user) {
+            res.json({
+                status: "FAILED",
+                message: "No user exists -> " + user,
+            });
+        } else {
+            req.logIn(user, (error) => {
+                if (error) console.log("ERROR: " + error);
+                res.json({
+                    status: "SUCCESS",
+                    message: "Successfully authenticated",
+                });
+                console.log(req.user);
+            });
+        }
+    })(req, res, next);
+
+    /*
     const email = req.body.email;
     const password = req.body.password;
-
     if (email == "" || password == "") {
         res.json({
             status: "FAILED",
@@ -152,6 +183,7 @@ router.route("/signin").post((req, res) => {
                 });
             });
     }
+    */
 });
 
 module.exports = router;

@@ -3,6 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const passport = require("passport");
+const passportLocal = require("passport-local");
 
 require("dotenv").config();
 
@@ -26,6 +28,9 @@ app.use(
     })
 );
 app.use(cookieParser("secretcode"));
+app.use(passport.initialize());
+app.use(passport.session());
+require("./passportConfig")(passport);
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {

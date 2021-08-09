@@ -44,7 +44,9 @@ const Signin = ({ navigation }) => {
             url: urlSignin,
         })
             .then((res) => console.log(res.data))
-            .catch((error) => console.log("ERROR: Promise rejected (sign in)"));
+            .catch((error) =>
+                console.log("ERROR: Promise rejected (sign in): " + error)
+            );
         navigation.navigate("HomeTabs");
     }
     function onRegisterPress() {
