@@ -22,6 +22,7 @@ const Signin = ({ navigation }) => {
 
     // axios sending POST request data to backend's express.post() (./backend/users.js)
     function onLoginPress() {
+        /*
         axios
             .post(urlSignin, {
                 email: email,
@@ -32,10 +33,33 @@ const Signin = ({ navigation }) => {
                 console.log(res.data);
             })
             .catch((error) => console.log("ERROR: Promise rejected (signin)"));
-
+        */
+        axios({
+            method: "POST",
+            data: {
+                email: email,
+                password: password,
+            },
+            withCredentials: true,
+            url: urlSignin,
+        })
+            .then((res) => console.log(res.data))
+            .catch((error) => console.log("ERROR: Promise rejected (sign in)"));
         navigation.navigate("HomeTabs");
     }
     function onRegisterPress() {
+        axios({
+            method: "POST",
+            data: {
+                email: email,
+                password: password,
+            },
+            withCredentials: true,
+            url: urlSignup,
+        })
+            .then((res) => console.log(res.data))
+            .catch((error) => console.log("ERROR: Promise rejected (sign up)"));
+        /*
         axios
             .post(urlSignup, {
                 email: email,
@@ -45,13 +69,9 @@ const Signin = ({ navigation }) => {
             .catch(function () {
                 console.log("ERROR: Promise rejected (signup)");
             });
+        */
         navigation.navigate("HomeTabs");
     }
-    /*
-    function getUserId() {
-        return userId;
-    }
-    */
 
     return (
         <SafeAreaView style={styles.container}>

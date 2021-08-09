@@ -13,6 +13,8 @@ import axios from "axios";
 import AwesomeButton from "react-native-really-awesome-button";
 import { RadioButton, Caption, Appbar } from "react-native-paper";
 
+const urlLog = "http://localhost:5000/log/add";
+
 const Log = ({ navigation }) => {
     /*
     const [logData, setLogData] = React.useState({
@@ -31,6 +33,23 @@ const Log = ({ navigation }) => {
 
     // This frontend function sends a JSON object to backend (routes/log.js) using axios post method, returning to previous screen afterwards
     function onSaveLog() {
+        axios({
+            method: "post",
+            url: urlLog,
+            data: {
+                name: foodName,
+                calories: calories,
+                protein: protein,
+                mealType: mealType,
+            },
+        })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch(function () {
+                console.log("LOG ERROR: promise rejected");
+            });
+        /*
         axios
             .post("http://localhost:5000/log/add", {
                 name: foodName,
@@ -42,6 +61,7 @@ const Log = ({ navigation }) => {
             .catch(function () {
                 console.log("LOG ERROR: Promise rejected (log)");
             });
+        */
         navigation.navigate("Home");
     }
 
