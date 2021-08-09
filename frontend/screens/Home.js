@@ -58,6 +58,12 @@ const Home = ({ navigation }) => {
         );
         */
         }
+        /*
+        axios.get('http://localhost:5000/getTotalCals/'+userid).then(resp => {
+            console.log(resp);
+
+        });
+        */
         axios.get(url).then((response) => {
             {
                 /*}

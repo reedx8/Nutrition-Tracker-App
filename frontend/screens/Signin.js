@@ -18,19 +18,24 @@ const urlSignup = "http://localhost:5000/users/signup";
 const Signin = ({ navigation }) => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    //const [userId, setUserId] = React.useState("");
 
-    function onSigninPress() {
+    // axios sending POST request data to backend's express.post() (./backend/users.js)
+    function onLoginPress() {
         axios
             .post(urlSignin, {
                 email: email,
                 password: password,
             })
-            .then((res) => console.log(res.data))
+            .then((res) => {
+                //setUserId(res.data._id);
+                console.log(res.data);
+            })
             .catch((error) => console.log("ERROR: Promise rejected (signin)"));
 
         navigation.navigate("HomeTabs");
     }
-    function onSignupPress() {
+    function onRegisterPress() {
         axios
             .post(urlSignup, {
                 email: email,
@@ -42,6 +47,11 @@ const Signin = ({ navigation }) => {
             });
         navigation.navigate("HomeTabs");
     }
+    /*
+    function getUserId() {
+        return userId;
+    }
+    */
 
     return (
         <SafeAreaView style={styles.container}>
@@ -81,10 +91,10 @@ const Signin = ({ navigation }) => {
                 textSize={18}
                 textColor="white"
                 onPress={
-                    () => onSigninPress() /*navigation.navigate("HomeTabs")*/
+                    () => onLoginPress() /*navigation.navigate("HomeTabs")*/
                 }
             >
-                Sign in
+                Login
             </AwesomeButton>
             <AwesomeButton
                 backgroundColor="deepskyblue"
@@ -92,9 +102,9 @@ const Signin = ({ navigation }) => {
                 stretch={true}
                 textSize={18}
                 textColor="white"
-                onPress={() => onSignupPress()}
+                onPress={() => onRegisterPress()}
             >
-                Sign up
+                Register
             </AwesomeButton>
         </SafeAreaView>
     );

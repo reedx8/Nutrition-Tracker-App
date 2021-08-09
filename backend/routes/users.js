@@ -1,4 +1,5 @@
 /* 
+route is '/users/signup', '/users/signin', etc...
 TODO: add update and delete routes
 */
 const router = require("express").Router();
@@ -21,6 +22,7 @@ router.route("/").get((req, res) => {
 router.route("/signup").post((req, res) => {
     const email = req.body.email;
     const password = req.body.password;
+    //const _id = req.body._id;
 
     // TODO: Add reg express tests for email and password
     if (email == "" || password == "") {

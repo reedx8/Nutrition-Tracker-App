@@ -42,7 +42,7 @@ const Log = ({ navigation }) => {
             .catch(function () {
                 console.log("LOG ERROR: Promise rejected (log)");
             });
-        navigation.goBack(); // TODO: May want navigation.navigate("HomeTabs") instead
+        navigation.navigate("Home");
     }
 
     return (

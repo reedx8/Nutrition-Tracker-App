@@ -4,12 +4,6 @@ const Schema = mongoose.Schema;
 
 const logSchema = new Schema(
     {
-        /*
-        username: {
-            type: String,
-            required: false,
-        },
-        */
         user: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",

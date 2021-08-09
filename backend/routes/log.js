@@ -1,5 +1,6 @@
 const router = require("express").Router();
 let Log = require("../models/log.model");
+//import getUserId from "../frontend/signin";
 
 router.route("/").get((req, res) => {
     Log.find()
@@ -8,17 +9,21 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    //const username = req.body.username;
+    // catches data called req sent through the axios POST request
     const name = req.body.name;
     const calories = Number(req.body.calories);
     const protein = Number(req.body.protein);
     const mealType = req.body.mealType;
+    /*
+    import("../../frontend/screens/Signin.js").then((module) => {
+        const user = module.getUserId();
+    });
+    */
     const user = req.body.user;
     //const date = Date.parse(req.body.date);
     //console.log(user);
 
     const newLog = new Log({
-        //username,
         name,
         calories,
         protein,
@@ -27,8 +32,10 @@ router.route("/add").post((req, res) => {
         //date,
     });
     //newLog.user = req.user.id;
-    //console.log(newLog);
+    console.log("NEWLOG:");
+    console.log(newLog);
 
+    // saves Log data to mongodb
     newLog
         .save()
         .then(() => res.json("Log added"))
@@ -41,6 +48,12 @@ router.route("/:user").get(async (req, res) => {
     res.json({ totalCalos });
 });
 */
+
+router.route("getTotalCals/:user").get(async (req, res) => {
+    const logs = await Log.find({ user: req.params.user });
+    res.json({ logs });
+});
+
 router.route("/:user").get((req, res) => {
     Log.find({ user: req.params.user })
         .then((log) => res.json(log))
@@ -61,7 +74,6 @@ router.route("/:id").delete((req, res) => {
 
 router.route("/update/:id").post((req, res) => {
     Log.findById(req.params.id).then((log) => {
-        //log.username = req.body.username;
         log.name = req.body.name;
         log.calories = Number(req.body.calories);
         log.protein = Number(req.body.protein);
