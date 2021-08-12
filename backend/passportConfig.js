@@ -12,7 +12,7 @@ module.exports = function (passport) {
             function (email, password, done) {
                 User.findOne({ email: email }, (error, user) => {
                     if (error) {
-                        throw error;
+                        return done(error);
                     }
                     if (!user) {
                         return done(null, false);

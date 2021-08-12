@@ -5,8 +5,12 @@ const Schema = mongoose.Schema;
 const logSchema = new Schema(
     {
         user: {
+            type: String,
+            required: true,
+            /*
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
+            */
         },
         name: {
             type: String,

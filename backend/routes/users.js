@@ -6,7 +6,7 @@ const router = require("express").Router();
 let User = require("../models/user.model");
 const mongoose = require("mongoose");
 const passport = require("passport");
-//require("../passportConfig")(passport);
+require("../passportConfig")(passport);
 
 // Pasword handler
 const bcrypt = require("bcrypt");
@@ -20,11 +20,14 @@ router.route("/").get((req, res) => {
         .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/getUser").get((req, res) => {
+    res.json(req.user);
+});
+
 // Signup user (post request)
 router.route("/signup").post((req, res) => {
     const email = req.body.email;
     const password = req.body.password;
-    //const _id = req.body._id;
 
     // TODO: Add reg express tests for email and password
     if (email == "" || password == "") {
@@ -104,7 +107,7 @@ router.route("/signin").post((req, res, next) => {
     // TODO: Add reg express tests for email and password
     /* 
     passport.authenticate sends the req.body.email and password 
-    to passportConfig.js's passport.use()
+    to passportConfig.js's passport.use()..
     */
     passport.authenticate("local", (error, user, info) => {
         if (error) {
@@ -121,15 +124,15 @@ router.route("/signin").post((req, res, next) => {
         } else {
             req.logIn(user, (error) => {
                 if (error) console.log("ERROR: " + error);
-                res.json({
-                    status: "SUCCESS",
-                    message: "Successfully authenticated",
-                });
-                console.log(req.user);
+                console.log("Succesfully authenticated");
+
+                // sending user data back to caller in the front end (axious.post() in Signin.js)..
+                res.json(req.user);
             });
         }
     })(req, res, next);
 
+    // Logging in user without passportjs..
     /*
     const email = req.body.email;
     const password = req.body.password;

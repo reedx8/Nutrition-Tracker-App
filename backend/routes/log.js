@@ -9,26 +9,26 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    // catches data called req sent through the axios POST request
+    // catches data called req sent through the axios POST request..
     const name = req.body.name;
     const calories = Number(req.body.calories);
     const protein = Number(req.body.protein);
     const mealType = req.body.mealType;
+    const user = req.body.user;
     /*
     import("../../frontend/screens/Signin.js").then((module) => {
         const user = module.getUserId();
     });
     */
-    const user = req.body.user;
     //const date = Date.parse(req.body.date);
     //console.log(user);
 
     const newLog = new Log({
+        user,
         name,
         calories,
         protein,
         mealType,
-        user,
         //date,
     });
     //newLog.user = req.user.id;
