@@ -13,6 +13,7 @@ import { FloatingAction } from "react-native-floating-action";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useIsFocused } from "@react-navigation/native";
 import { Appbar, Button, Title, BottomNavigation } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -29,6 +30,20 @@ const Home = ({ navigation }) => {
     const [lunchCalories, setLunch] = React.useState("");
     const [dinnerCalories, setDinner] = React.useState("");
     const [snacksCalories, setSnacks] = React.useState("");
+    const [currentUsersID, setCurrentUsersID] = React.useState("");
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("@storage_Key");
+            if (value !== null) {
+                setCurrentUsersID(value);
+                //console.log(value);
+            }
+        } catch (error) {
+            console.log("Error reading AsyncStorage value: " + error);
+        }
+    };
+    getData();
 
     // Using useFocusEffect doesnt consist. refresh each time
     // Using useIsFocused() instead of useFocusEffect() works better
@@ -36,6 +51,9 @@ const Home = ({ navigation }) => {
     //let totalProt = 0;
     let total = 0;
     let totalCals = 0;
+    //console.log(route.params);
+    //console.log("HOME USERID: " + JSON.stringify(userID));
+    //console.log("HOME USERID: " + userID);
 
     if (isFocused) {
         {

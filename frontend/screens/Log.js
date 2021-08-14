@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import AwesomeButton from "react-native-really-awesome-button";
 import { RadioButton, Caption, Appbar } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const urlLog = "http://localhost:5000/log/add";
 
@@ -30,13 +31,29 @@ const Log = ({ navigation }) => {
     const [protein, setProtein] = React.useState("");
     const [checked, setChecked] = React.useState("");
     const [mealType, setValue] = React.useState("");
+    const [userID, setUserID] = React.useState("");
+
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("@storage_Key");
+            if (value !== null) {
+                setUserID(value);
+                //console.log(value);
+            }
+        } catch (error) {
+            console.log("Error reading AsyncStorage value: " + error);
+        }
+    };
+    getData();
 
     // This frontend function sends a JSON object to backend (routes/log.js) using axios post method, returning to previous screen afterwards
     function onSaveLog() {
+        // passes the user entered data to routes in the backend..
         axios({
             method: "post",
             url: urlLog,
             data: {
+                user: userID,
                 name: foodName,
                 calories: calories,
                 protein: protein,

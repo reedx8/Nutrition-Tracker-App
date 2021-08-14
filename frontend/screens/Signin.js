@@ -11,6 +11,7 @@ import {
 import Button from "react-native-paper";
 import AwesomeButton from "react-native-really-awesome-button";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const urlSignin = "http://localhost:5000/users/signin";
 const urlSignup = "http://localhost:5000/users/signup";
@@ -18,7 +19,16 @@ const urlSignup = "http://localhost:5000/users/signup";
 const Signin = ({ navigation }) => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    //const [userId, setUserId] = React.useState("");
+    const [userId, setUserId] = React.useState("");
+
+    let id = 0;
+    const storeData = async (value) => {
+        try {
+            await AsyncStorage.setItem("@storage_Key", value);
+        } catch (error) {
+            console.log("Saving error: " + error);
+        }
+    };
 
     // axios sending POST request data to backend's express.post() (./backend/users.js)
     function onLoginPress() {
@@ -43,12 +53,17 @@ const Signin = ({ navigation }) => {
             withCredentials: true,
             url: urlSignin,
         })
-            .then((res) => console.log(res.data))
+            .then((res) => {
+                storeData(res.data._id);
+            })
             .catch((error) =>
                 console.log("ERROR: Promise rejected (sign in): " + error)
             );
-        navigation.navigate("HomeTabs");
+        navigation.navigate("HomeTabs", {
+            userID: userId,
+        });
     }
+
     function onRegisterPress() {
         axios({
             method: "POST",
@@ -59,7 +74,10 @@ const Signin = ({ navigation }) => {
             withCredentials: true,
             url: urlSignup,
         })
-            .then((res) => console.log(res.data))
+            .then((res) => {
+                storeData(res.data._id);
+                console.log(res.data);
+            })
             .catch((error) => console.log("ERROR: Promise rejected (sign up)"));
         /*
         axios
