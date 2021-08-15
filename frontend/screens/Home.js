@@ -19,17 +19,16 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
 const axios = require("axios");
 const url = "http://localhost:5000/log/";
-// const url = "http://localhost:5000/log/:userID";
 const caloriesRDA = 2500;
 
 const Home = ({ navigation }) => {
     // To get total calories from the log database, by using React hooks.
-    const [totalCalories, setTotalCalories] = React.useState("");
-    const [totalProtein, setTotalProtein] = React.useState("");
-    const [breakfastCalories, setBreakfast] = React.useState("");
-    const [lunchCalories, setLunch] = React.useState("");
-    const [dinnerCalories, setDinner] = React.useState("");
-    const [snacksCalories, setSnacks] = React.useState("");
+    const [totalCalories, setTotalCalories] = React.useState(0);
+    const [totalProtein, setTotalProtein] = React.useState(0);
+    const [breakfastCalories, setBreakfast] = React.useState(0);
+    const [lunchCalories, setLunch] = React.useState(0);
+    const [dinnerCalories, setDinner] = React.useState(0);
+    const [snacksCalories, setSnacks] = React.useState(0);
     const [currentUsersID, setCurrentUsersID] = React.useState("");
 
     const getData = async () => {
@@ -51,50 +50,67 @@ const Home = ({ navigation }) => {
     //let totalProt = 0;
     let total = 0;
     let totalCals = 0;
-    //console.log(route.params);
-    //console.log("HOME USERID: " + JSON.stringify(userID));
-    //console.log("HOME USERID: " + userID);
 
     if (isFocused) {
-        {
-            /*
-        axios.get(url).then((response) =>
-            setTotalCalories(() => {
-                for (const i in response.data) {
-                    totalCals += response.data[i].calories;
-                }
-                return totalCals;
-            })
-        );
-        axios.get(url).then((response) =>
+        async function getUsersNutritionData() {
+            const response = await axios.get(url + currentUsersID);
+            console.log(response);
+
             setTotalProtein(() => {
                 for (const i in response.data) {
-                    totalProt += response.data[i].protein;
-                }
-                return totalProt;
-            })
-        );
-        */
-        }
-        /*
-        axios.get('http://localhost:5000/getTotalCals/'+userid).then(resp => {
-            console.log(resp);
-
-        });
-        */
-        axios.get(url + currentUsersID).then((response) => {
-            {
-                /*}
-            setTotalCalories(() => {
-                for (const i in response.data) {
-                    total += response.data[i].calories;
+                    total += response.data[i].protein;
                 }
                 return total;
             });
             total = 0;
-            */
-            }
-            console.log(response);
+            setBreakfast(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "breakfast") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            total = 0;
+            setLunch(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "lunch") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            total = 0;
+            setDinner(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "dinner") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            total = 0;
+            setSnacks(() => {
+                for (const i in response.data) {
+                    if (response.data[i].mealType == "snacks") {
+                        total += response.data[i].calories;
+                    }
+                }
+                return total;
+            });
+            totalCals += total;
+            setTotalCalories(() => {
+                return totalCals;
+            });
+        }
+        getUsersNutritionData();
+
+        /*
+        axios.get(url + currentUsersID).then((response) => {
+            //console.log(response);
             setTotalProtein(() => {
                 for (const i in response.data) {
                     total += response.data[i].protein;
@@ -145,8 +161,8 @@ const Home = ({ navigation }) => {
                 return totalCals;
             });
         });
+        */
     }
-
     return (
         <SafeAreaView style={styles.container}>
             {/*

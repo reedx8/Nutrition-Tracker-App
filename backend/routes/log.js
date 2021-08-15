@@ -1,6 +1,7 @@
 const router = require("express").Router();
 let Log = require("../models/log.model");
-//import getUserId from "../frontend/signin";
+const startOfDay = require("date-fns/startOfDay");
+const endOfDay = require("date-fns/endOfDay");
 
 router.route("/").get((req, res) => {
     Log.find()
@@ -50,14 +51,19 @@ router.route("/:user").get(async (req, res) => {
 });
 */
 
+/*
 router.route("getTotalCals/:user").get(async (req, res) => {
     const logs = await Log.find({ user: req.params.user });
     res.json({ logs });
 });
+*/
 
-// Gets user-specific nutrition data
+// Gets user-specific nutrition data, for todays date
 router.route("/:userID").get((req, res) => {
-    Log.find({ user: req.params.userID })
+    Log.find({
+        user: req.params.userID,
+        createdAt: { $gte: startOfDay(new Date()), $lte: endOfDay(new Date()) },
+    })
         .then((logs) => res.json(logs))
         .catch((error) =>
             res.status(400).json("Error (routes/log.js): " + error)
