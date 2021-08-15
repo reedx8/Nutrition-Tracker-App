@@ -19,7 +19,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
 const axios = require("axios");
 const url = "http://localhost:5000/log/";
-//const url = "http://localhost:5000/log/:user";
+// const url = "http://localhost:5000/log/:userID";
 const caloriesRDA = 2500;
 
 const Home = ({ navigation }) => {
@@ -82,7 +82,7 @@ const Home = ({ navigation }) => {
 
         });
         */
-        axios.get(url).then((response) => {
+        axios.get(url + currentUsersID).then((response) => {
             {
                 /*}
             setTotalCalories(() => {
@@ -94,6 +94,7 @@ const Home = ({ navigation }) => {
             total = 0;
             */
             }
+            console.log(response);
             setTotalProtein(() => {
                 for (const i in response.data) {
                     total += response.data[i].protein;

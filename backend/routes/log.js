@@ -5,9 +5,10 @@ let Log = require("../models/log.model");
 router.route("/").get((req, res) => {
     Log.find()
         .then((logs) => res.json(logs))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .catch((err) => res.status(400).json("Error (routes/log.js): " + err));
 });
 
+// Logs nutrition entry
 router.route("/add").post((req, res) => {
     // catches data called req sent through the axios POST request..
     const name = req.body.name;
@@ -39,7 +40,7 @@ router.route("/add").post((req, res) => {
     newLog
         .save()
         .then(() => res.json("Log added"))
-        .catch((err) => res.status(400).json("Error: " + err));
+        .catch((err) => res.status(400).json("Error (routes/log.js): " + err));
 });
 /*
 router.route("/:user").get(async (req, res) => {
@@ -54,17 +55,22 @@ router.route("getTotalCals/:user").get(async (req, res) => {
     res.json({ logs });
 });
 
-router.route("/:user").get((req, res) => {
-    Log.find({ user: req.params.user })
-        .then((log) => res.json(log))
-        .catch((err) => res.status(400).json("Error!!: " + err));
+// Gets user-specific nutrition data
+router.route("/:userID").get((req, res) => {
+    Log.find({ user: req.params.userID })
+        .then((logs) => res.json(logs))
+        .catch((error) =>
+            res.status(400).json("Error (routes/log.js): " + error)
+        );
 });
 
+/*
 router.route("/:id").get((req, res) => {
     Log.findById(req.params.id)
         .then((log) => res.json(log))
         .catch((err) => res.status(400).json("Error: " + err));
 });
+*/
 
 router.route("/:id").delete((req, res) => {
     Log.findByIdAndDelete(req.params.id)
