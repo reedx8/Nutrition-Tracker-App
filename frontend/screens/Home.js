@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
     if (isFocused) {
         async function getUsersNutritionData() {
             const response = await axios.get(url + currentUsersID);
-            console.log(response);
+            //console.log(response);
 
             setTotalProtein(() => {
                 for (const i in response.data) {

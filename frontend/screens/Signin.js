@@ -7,6 +7,7 @@ import {
     StatusBar,
     SafeAreaView,
     TextInput,
+    Alert,
 } from "react-native";
 import Button from "react-native-paper";
 import AwesomeButton from "react-native-really-awesome-button";
@@ -19,9 +20,8 @@ const urlSignup = "http://localhost:5000/users/signup";
 const Signin = ({ navigation }) => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [userId, setUserId] = React.useState("");
+    //const [userId, setUserId] = React.useState("");
 
-    let id = 0;
     const storeData = async (value) => {
         try {
             await AsyncStorage.setItem("@storage_Key", value);
@@ -54,14 +54,17 @@ const Signin = ({ navigation }) => {
             url: urlSignin,
         })
             .then((res) => {
-                storeData(res.data._id);
+                if (res.data.status !== "FAILED") {
+                    storeData(res.data._id);
+                    navigation.navigate("HomeTabs");
+                } else {
+                    Alert.alert("User doesn't exist", "Please try again");
+                }
             })
             .catch((error) =>
                 console.log("ERROR: Promise rejected (sign in): " + error)
             );
-        navigation.navigate("HomeTabs", {
-            userID: userId,
-        });
+        //navigation.navigate("HomeTabs");
     }
 
     function onRegisterPress() {
