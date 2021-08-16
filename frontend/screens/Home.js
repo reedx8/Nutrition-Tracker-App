@@ -11,7 +11,7 @@ import {
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import { Appbar, Button, Title, BottomNavigation } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -44,71 +44,71 @@ const Home = ({ navigation }) => {
     };
     getData();
 
-    // Using useFocusEffect doesnt consist. refresh each time
-    // Using useIsFocused() instead of useFocusEffect() works better
-    const isFocused = useIsFocused();
-    //let totalProt = 0;
     let total = 0;
     let totalCals = 0;
+    // useFocusEffect w/ useCallback works better than useIsFocused()
+    useFocusEffect(
+        React.useCallback(() => {
+            getUsersNutritionData();
+        })
+    );
 
-    if (isFocused) {
-        async function getUsersNutritionData() {
-            const response = await axios.get(url + currentUsersID);
-            //console.log(response);
+    async function getUsersNutritionData() {
+        const response = await axios.get(url + currentUsersID);
+        //console.log(response);
 
-            setTotalProtein(() => {
-                for (const i in response.data) {
-                    total += response.data[i].protein;
+        setTotalProtein(() => {
+            for (const i in response.data) {
+                total += response.data[i].protein;
+            }
+            return total;
+        });
+        total = 0;
+        setBreakfast(() => {
+            for (const i in response.data) {
+                if (response.data[i].mealType == "breakfast") {
+                    total += response.data[i].calories;
                 }
-                return total;
-            });
-            total = 0;
-            setBreakfast(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "breakfast") {
-                        total += response.data[i].calories;
-                    }
+            }
+            return total;
+        });
+        totalCals += total;
+        total = 0;
+        setLunch(() => {
+            for (const i in response.data) {
+                if (response.data[i].mealType == "lunch") {
+                    total += response.data[i].calories;
                 }
-                return total;
-            });
-            totalCals += total;
-            total = 0;
-            setLunch(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "lunch") {
-                        total += response.data[i].calories;
-                    }
+            }
+            return total;
+        });
+        totalCals += total;
+        total = 0;
+        setDinner(() => {
+            for (const i in response.data) {
+                if (response.data[i].mealType == "dinner") {
+                    total += response.data[i].calories;
                 }
-                return total;
-            });
-            totalCals += total;
-            total = 0;
-            setDinner(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "dinner") {
-                        total += response.data[i].calories;
-                    }
+            }
+            return total;
+        });
+        totalCals += total;
+        total = 0;
+        setSnacks(() => {
+            for (const i in response.data) {
+                if (response.data[i].mealType == "snacks") {
+                    total += response.data[i].calories;
                 }
-                return total;
-            });
-            totalCals += total;
-            total = 0;
-            setSnacks(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "snacks") {
-                        total += response.data[i].calories;
-                    }
-                }
-                return total;
-            });
-            totalCals += total;
-            setTotalCalories(() => {
-                return totalCals;
-            });
-        }
-        getUsersNutritionData();
-
-        /*
+            }
+            return total;
+        });
+        totalCals += total;
+        setTotalCalories(() => {
+            return totalCals;
+        });
+    }
+    /*
+    function getUsersNutritionData() {
         axios.get(url + currentUsersID).then((response) => {
             //console.log(response);
             setTotalProtein(() => {
@@ -161,8 +161,18 @@ const Home = ({ navigation }) => {
                 return totalCals;
             });
         });
-        */
     }
+    */
+
+    /*
+    // Using useFocusEffect doesnt consist. refresh each time
+    // Using useIsFocused() instead of useFocusEffect() works better
+    const isFocused = useIsFocused();
+    if (isFocused) {
+        getUsersNutritionData();
+    }
+    */
+
     return (
         <SafeAreaView style={styles.container}>
             {/*
