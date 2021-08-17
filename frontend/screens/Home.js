@@ -164,15 +164,6 @@ const Home = ({ navigation }) => {
     }
     */
 
-    /*
-    // Using useFocusEffect doesnt consist. refresh each time
-    // Using useIsFocused() instead of useFocusEffect() works better
-    const isFocused = useIsFocused();
-    if (isFocused) {
-        getUsersNutritionData();
-    }
-    */
-
     return (
         <SafeAreaView style={styles.container}>
             {/*
@@ -391,12 +382,12 @@ const styles = StyleSheet.create({
     nutrientTitle: {
         color: "lightgrey",
         fontSize: 17,
-        //fontWeight: "bold",
+        //fontWeight: "400",
     },
     nutrientNumber: {
         color: "lightgreen",
-        fontSize: 15,
-        fontWeight: "600",
+        fontSize: 20,
+        fontWeight: "300",
     },
 });
 

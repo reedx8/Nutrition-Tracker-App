@@ -104,7 +104,7 @@ const Signin = ({ navigation }) => {
                     Welcome to Nutrition Tracker!
                 </Text>
             </View>
-            <Text style={{ color: "white" }}>E-mail</Text>
+            <Text style={styles.credentialsTitle}>E-mail</Text>
             <TextInput
                 keyboardAppearance="dark"
                 value={email}
@@ -116,7 +116,7 @@ const Signin = ({ navigation }) => {
                 autoCapitalize="none"
                 autoCorrect={false}
             ></TextInput>
-            <Text style={{ color: "white" }}>Password</Text>
+            <Text style={styles.credentialsTitle}>Password</Text>
             <TextInput
                 keyboardAppearance="dark"
                 value={password}
@@ -131,7 +131,7 @@ const Signin = ({ navigation }) => {
                 backgroundColor="deepskyblue"
                 backgroundDarker="#1F1F1F"
                 stretch={true}
-                textSize={18}
+                textSize={20}
                 textColor="white"
                 onPress={
                     () => onLoginPress() /*navigation.navigate("HomeTabs")*/
@@ -143,7 +143,7 @@ const Signin = ({ navigation }) => {
                 backgroundColor="deepskyblue"
                 backgroundDarker="#1F1F1F"
                 stretch={true}
-                textSize={18}
+                textSize={20}
                 textColor="white"
                 onPress={() => onRegisterPress()}
             >
@@ -158,16 +158,23 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         backgroundColor: "#000000",
+        //justifyContent: "center",
         justifyContent: "space-evenly",
     },
     headlineRow: {
         flexDirection: "row",
+        justifyContent: "center",
     },
     headlineText: {
         color: "white",
+        fontSize: 25,
     },
     credentialsRow: {
         flexDirection: "row",
+    },
+    credentialsTitle: {
+        color: "white",
+        fontSize: 20,
     },
 });
 
