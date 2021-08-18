@@ -8,6 +8,7 @@ import {
     SafeAreaView,
     TextInput,
     Alert,
+    Image,
 } from "react-native";
 import Button from "react-native-paper";
 import AwesomeButton from "react-native-really-awesome-button";
@@ -99,6 +100,10 @@ const Signin = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
+            <Image
+                source={require("../assets/Logo2.png")}
+                style={{ alignSelf: "center" }}
+            />
             <View style={styles.headlineRow}>
                 <Text style={styles.headlineText}>
                     Welcome to Nutrition Tracker!
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
     },
     headlineText: {
         color: "white",
-        fontSize: 25,
+        fontSize: 27,
     },
     credentialsRow: {
         flexDirection: "row",
