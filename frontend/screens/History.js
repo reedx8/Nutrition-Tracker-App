@@ -6,6 +6,7 @@ import {
     FlatList,
     StatusBar,
     SafeAreaView,
+    RefreshControl,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -19,8 +20,13 @@ async function getHistory(usersID) {
     const data = await response.data;
 }
 
+const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 const History = () => {
     const [currentUsersID, setCurrentUsersID] = React.useState("");
+    const [refreshing, setRefreshing] = React.useState(false);
+
     let dayNumber = 0;
 
     const getData = async () => {
@@ -36,6 +42,12 @@ const History = () => {
     };
     getData();
     //console.log(currentUsersID);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        //getHistory(currentUsersID);
+        wait(2000).then(() => setRefreshing(false));
+    });
 
     useFocusEffect(
         React.useCallback(() => {
@@ -83,6 +95,15 @@ const History = () => {
                             You havent started logging yet!
                         </Text>
                     </View>
+                }
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor="lightgrey"
+                        title="Fetching your history..."
+                        titleColor="lightgrey"
+                    />
                 }
             />
         </SafeAreaView>

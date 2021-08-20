@@ -205,7 +205,7 @@ const Home = ({ navigation }) => {
                         refreshing={refreshing}
                         onRefresh={onRefresh}
                         tintColor="lightgrey"
-                        title="Fetching new nutrition data..."
+                        title="Fetching your nutrition data..."
                         titleColor="lightgrey"
                     />
                 }
