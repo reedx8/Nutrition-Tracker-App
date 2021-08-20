@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { set } from "date-fns";
 
 const axios = require("axios");
 const url = "http://localhost:5000/log/";
@@ -23,8 +24,10 @@ async function getHistory(usersID) {
 const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
 };
+
 const History = () => {
     const [currentUsersID, setCurrentUsersID] = React.useState("");
+    const [data, setData] = React.useState([]);
     const [refreshing, setRefreshing] = React.useState(false);
 
     let dayNumber = 0;
@@ -41,17 +44,26 @@ const History = () => {
         }
     };
     getData();
-    //console.log(currentUsersID);
+
+    // returns key/value pairs of date/totalCalories+Protein+etc..
+    async function getHistory(usersID) {
+        const response = await axios.get(url + usersID);
+        const responseData = await response.data;
+        setData(responseData);
+
+        console.log(data);
+    }
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        //getHistory(currentUsersID);
+        getHistory(currentUsersID);
         wait(2000).then(() => setRefreshing(false));
     });
 
     useFocusEffect(
         React.useCallback(() => {
-            getHistory(currentUsersID);
+            // Fetching data too much
+            //getHistory(currentUsersID);
         })
     );
     //console.log(response.data);

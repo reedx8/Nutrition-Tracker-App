@@ -106,7 +106,7 @@ function homeTabView() {
                             }}
                         >
                             <Button
-                                icon="menu-open"
+                                icon="history"
                                 labelStyle={{
                                     fontSize: 30,
                                     color: focused ? "#df5234" : "grey",
