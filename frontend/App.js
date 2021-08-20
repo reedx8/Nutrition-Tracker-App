@@ -71,7 +71,7 @@ function homeTabView() {
                                 icon="home"
                                 labelStyle={{
                                     fontSize: 30,
-                                    color: focused ? "black" : "grey",
+                                    color: focused ? "#df5234" : "grey",
                                 }}
                             >
                                 <Text style={{ fontSize: 16 }}>Home</Text>
@@ -109,7 +109,7 @@ function homeTabView() {
                                 icon="menu-open"
                                 labelStyle={{
                                     fontSize: 30,
-                                    color: focused ? "black" : "grey",
+                                    color: focused ? "#df5234" : "grey",
                                 }}
                             >
                                 <Text style={{ fontSize: 16 }}>History</Text>
