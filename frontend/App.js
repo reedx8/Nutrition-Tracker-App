@@ -14,6 +14,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Signin } from "./screens";
 import { Home } from "./screens";
 import { Log } from "./screens";
+import { History } from "./screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Button } from "react-native-paper";
 
@@ -93,8 +94,8 @@ function homeTabView() {
                 }}
             />
             <Tab.Screen
-                name="Settings"
-                component={Home}
+                name="History"
+                component={History}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View
@@ -111,7 +112,7 @@ function homeTabView() {
                                     color: focused ? "black" : "grey",
                                 }}
                             >
-                                <Text style={{ fontSize: 16 }}>Settings</Text>
+                                <Text style={{ fontSize: 16 }}>History</Text>
                             </Button>
                         </View>
                     ),

@@ -7,6 +7,8 @@ import {
     Dimensions,
     StatusBar,
     SafeAreaView,
+    ScrollView,
+    RefreshControl,
 } from "react-native";
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
@@ -30,6 +32,7 @@ const Home = ({ navigation }) => {
     const [dinnerCalories, setDinner] = React.useState(0);
     const [snacksCalories, setSnacks] = React.useState(0);
     const [currentUsersID, setCurrentUsersID] = React.useState("");
+    const [refreshing, setRefreshing] = React.useState(false);
 
     const getData = async () => {
         try {
@@ -39,7 +42,7 @@ const Home = ({ navigation }) => {
                 //console.log(value);
             }
         } catch (error) {
-            console.log("Error reading AsyncStorage value: " + error);
+            console.log("Error reading AsyncStorage value -> " + error);
         }
     };
     getData();
@@ -164,6 +167,16 @@ const Home = ({ navigation }) => {
     }
     */
 
+    const wait = (timeout) => {
+        return new Promise((resolve) => setTimeout(resolve, timeout));
+    };
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getUsersNutritionData();
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+
     return (
         <SafeAreaView style={styles.container}>
             {/*
@@ -186,92 +199,105 @@ const Home = ({ navigation }) => {
                 </Button>
                 {/*<Image style={styles.setUserIcon} source={userIcon} />*/}
             </View>
-            <View style={styles.calories}>
-                {/*<Text style={styles.totalCals}>(Total Calories Area)</Text>*/}
-                <AnimatedCircularProgress
-                    size={160}
-                    width={15}
-                    fill={(totalCalories / caloriesRDA) * 100}
-                    backgroundWidth={22}
-                    tintColor="deepskyblue"
-                    rotation={360}
-                    lineCap="round"
-                    backgroundColor="#1F1F1F"
-                    //prefill={10}
-                >
-                    {() => (
-                        <Text
-                            style={{
-                                color: "white",
-                                fontSize: 20,
-                            }}
-                        >
-                            {getRemainingCalories(totalCalories)} cals left
-                        </Text>
-                    )}
-                </AnimatedCircularProgress>
-                <View style={styles.calorieBreakdown}>
-                    <View style={styles.meals}>
-                        <Text style={styles.nutrientTitle}>Breakfast</Text>
-                        <Text style={styles.nutrientTitle}>Lunch</Text>
-                        <Text style={styles.nutrientTitle}>Dinner</Text>
-                    </View>
-                    <View style={styles.meals}>
-                        <Text style={styles.nutrientNumber}>
-                            {breakfastCalories}
-                        </Text>
-                        <Text style={styles.nutrientNumber}>
-                            {lunchCalories}
-                        </Text>
-                        <Text style={styles.nutrientNumber}>
-                            {dinnerCalories}
-                        </Text>
-                    </View>
-                    <View style={styles.meals}>
-                        <Text style={styles.nutrientTitle}>Snacks</Text>
-                        <Text style={styles.nutrientTitle}>Exercise</Text>
-                    </View>
-                    <View style={styles.meals}>
-                        <Text style={styles.nutrientNumber}>
-                            {snacksCalories}
-                        </Text>
-                        <Text style={styles.nutrientNumber}>0</Text>
-                    </View>
-                </View>
-            </View>
-            <View style={styles.macronutrients}>
-                <Title style={{ color: "white" }}>Macronutrients</Title>
-                <View style={styles.macrosCol}>
-                    <View style={styles.macrosInnerRow}>
-                        <Text style={styles.nutrientTitle}>Protein</Text>
-                    </View>
-                    <View style={styles.macrosInnerRow}>
-                        <Text style={styles.nutrientNumber}>
-                            {totalProtein}g
-                        </Text>
-                    </View>
-                </View>
-                <View style={styles.macrosCol}>
-                    <View style={styles.macrosInnerRow}>
-                        <Text style={styles.nutrientTitle}>Fats</Text>
-                    </View>
-                    <View style={styles.macrosInnerRow}>
-                        <Text style={styles.nutrientNumber}>0g</Text>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        tintColor="lightgrey"
+                        title="Fetching new nutrition data..."
+                        titleColor="lightgrey"
+                    />
+                }
+            >
+                <View style={styles.calories}>
+                    {/*<Text style={styles.totalCals}>(Total Calories Area)</Text>*/}
+                    <AnimatedCircularProgress
+                        size={160}
+                        width={15}
+                        fill={(totalCalories / caloriesRDA) * 100}
+                        backgroundWidth={22}
+                        tintColor="deepskyblue"
+                        rotation={360}
+                        lineCap="round"
+                        backgroundColor="#1F1F1F"
+                        //prefill={10}
+                    >
+                        {() => (
+                            <Text
+                                style={{
+                                    color: "white",
+                                    fontSize: 20,
+                                }}
+                            >
+                                {getRemainingCalories(totalCalories)} cals left
+                            </Text>
+                        )}
+                    </AnimatedCircularProgress>
+                    <View style={styles.calorieBreakdown}>
+                        <View style={styles.meals}>
+                            <Text style={styles.nutrientTitle}>Breakfast</Text>
+                            <Text style={styles.nutrientTitle}>Lunch</Text>
+                            <Text style={styles.nutrientTitle}>Dinner</Text>
+                        </View>
+                        <View style={styles.meals}>
+                            <Text style={styles.nutrientNumber}>
+                                {breakfastCalories}
+                            </Text>
+                            <Text style={styles.nutrientNumber}>
+                                {lunchCalories}
+                            </Text>
+                            <Text style={styles.nutrientNumber}>
+                                {dinnerCalories}
+                            </Text>
+                        </View>
+                        <View style={styles.meals}>
+                            <Text style={styles.nutrientTitle}>Snacks</Text>
+                            <Text style={styles.nutrientTitle}>Exercise</Text>
+                        </View>
+                        <View style={styles.meals}>
+                            <Text style={styles.nutrientNumber}>
+                                {snacksCalories}
+                            </Text>
+                            <Text style={styles.nutrientNumber}>0</Text>
+                        </View>
                     </View>
                 </View>
-                <View style={styles.macrosCol}>
-                    <View style={styles.macrosInnerRow}>
-                        <Text style={styles.nutrientTitle}>Carbs</Text>
+                <View style={styles.macronutrients}>
+                    <Title style={{ color: "white" }}>Macronutrients</Title>
+                    <View style={styles.macrosCol}>
+                        <View style={styles.macrosInnerRow}>
+                            <Text style={styles.nutrientTitle}>Protein</Text>
+                        </View>
+                        <View style={styles.macrosInnerRow}>
+                            <Text style={styles.nutrientNumber}>
+                                {totalProtein}g
+                            </Text>
+                        </View>
                     </View>
-                    <View style={styles.macrosInnerRow}>
-                        <Text style={styles.nutrientNumber}>0g</Text>
+                    <View style={styles.macrosCol}>
+                        <View style={styles.macrosInnerRow}>
+                            <Text style={styles.nutrientTitle}>Fats</Text>
+                        </View>
+                        <View style={styles.macrosInnerRow}>
+                            <Text style={styles.nutrientNumber}>0g</Text>
+                        </View>
+                    </View>
+                    <View style={styles.macrosCol}>
+                        <View style={styles.macrosInnerRow}>
+                            <Text style={styles.nutrientTitle}>Carbs</Text>
+                        </View>
+                        <View style={styles.macrosInnerRow}>
+                            <Text style={styles.nutrientNumber}>0g</Text>
+                        </View>
                     </View>
                 </View>
-            </View>
-            <View style={styles.successCalender}>
-                <Text style={{ color: "white" }}>(Success Calender Area)</Text>
-            </View>
-            {/*
+                <View style={styles.successCalender}>
+                    <Text style={{ color: "white" }}>
+                        (Success Calender Area)
+                    </Text>
+                </View>
+                {/*
             <View>
                 <FloatingAction
                     onPressMain={() => navigation.navigate("Log")}
@@ -283,14 +309,15 @@ const Home = ({ navigation }) => {
                 />
             </View>
             */}
-            <Button
-                onPress={() => navigation.navigate("Signin")}
-                color="white"
-                mode="contained"
-                dark={false}
-            >
-                (Sign in screen)
-            </Button>
+                <Button
+                    onPress={() => navigation.navigate("Signin")}
+                    color="white"
+                    mode="contained"
+                    dark={false}
+                >
+                    (Sign in screen)
+                </Button>
+            </ScrollView>
         </SafeAreaView>
     );
 };
