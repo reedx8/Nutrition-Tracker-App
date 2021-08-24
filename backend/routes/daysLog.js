@@ -45,7 +45,7 @@ router.route("/update").post((req, res) => {
     */
 });
 
-// getting the user's existing daysLog for todays date (DELETE)
+// getting the user's existing daysLog for todays date
 router.route("/getLog/:userID").get((req, res) => {
     daysLog
         .find({

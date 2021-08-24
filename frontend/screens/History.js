@@ -8,18 +8,20 @@ import {
     SafeAreaView,
     RefreshControl,
 } from "react-native";
+import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { set } from "date-fns";
 
-const axios = require("axios");
-const url = "http://localhost:5000/log/";
+const daysLogURL = "http://localhost:5000/daysLog/getLog/";
 
+/*
 // returns key/value pairs of date/totalCalories+Protein+etc..
 async function getHistory(usersID) {
     const response = await axios.get(url + usersID);
     const data = await response.data;
 }
+*/
 
 const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -27,17 +29,18 @@ const wait = (timeout) => {
 
 const History = () => {
     const [currentUsersID, setCurrentUsersID] = React.useState("");
-    const [data, setData] = React.useState([]);
+    const [historyData, setHistoryData] = React.useState();
     const [refreshing, setRefreshing] = React.useState(false);
 
     let dayNumber = 0;
+    console.log("hello");
 
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem("@storage_Key");
             if (value !== null) {
                 setCurrentUsersID(value);
-                //console.log(value);
+                console.log(currentUsersID);
             }
         } catch (error) {
             console.log("Error reading AsyncStorage value -> " + error);
@@ -47,25 +50,82 @@ const History = () => {
 
     // returns key/value pairs of date/totalCalories+Protein+etc..
     async function getHistory(usersID) {
-        const response = await axios.get(url + usersID);
-        const responseData = await response.data;
-        setData(responseData);
+        try {
+            const response = await axios.get(daysLogURL + usersID);
+            //const responseData = await response.data[0];
+            setHistoryData(response.data[0]);
+        } catch (error) {
+            console.log("ERROR (getHistory) -> " + error);
+        }
 
-        console.log(data);
+        //console.log(historyData);
     }
+    //getHistory(currentUsersID);
 
+    /*
+    axios
+        .get(url + currentUsersID)
+        .then((res) => {
+            setHistoryData(res.data);
+            console.log(res.data);
+        })
+        .catch((error) => console.log("ERROR (Gethistory) -> " + error));
+    */
+
+    /*
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        getHistory(currentUsersID);
+        //getHistory(currentUsersID);
         wait(2000).then(() => setRefreshing(false));
     });
+    */
 
+    React.useEffect(() => {
+        getHistory(currentUsersID);
+        console.log(historyData);
+
+        /*
+        // Works, but not on the first run of component
+        axios({
+            method: "get",
+            url: daysLogURL + currentUsersID,
+        })
+            .then((res) => {
+                setHistoryData(res.data);
+                console.log("DATA: " + res.data[0].totalCalories);
+            })
+            .catch((error) => console.log(error));
+        */
+        /*
+        axios
+            .get(daysLogURL + currentUsersID)
+            .then((res) => {
+                setHistoryData(res.data);
+                console.log("HISTORY: " + historyData);
+                console.log("HISTORY RES: " + res.data);
+            })
+            .catch((error) => console.log("ERROR (Gethistory) -> " + error));
+            */
+    }, []);
+
+    /*
     useFocusEffect(
         React.useCallback(() => {
             // Fetching data too much
             //getHistory(currentUsersID);
+            axios
+                .get(url + currentUsersID)
+                .then((res) => {
+                    setHistoryData(res.data[0]);
+                    //console.log(historyData);
+                })
+                .catch((error) =>
+                    console.log("ERROR (Gethistory) -> " + error)
+                );
         })
     );
+    */
+
     //console.log(response.data);
 
     return (
@@ -73,10 +133,12 @@ const History = () => {
             <StatusBar barStyle="light-content" />
             <FlatList
                 // Iterates via object.keyName
-                data={[
-                    { key: "100 Calories", key2: "5 Protein" },
-                    { key: "0 Calories", key2: "10 Protein" },
-                ]}
+                data={[{ key: "Ten" }]}
+                /*
+                keyExtracter={(item, index) => {
+                    return index.toString();
+                }}
+                */
                 renderItem={({ item }) => (
                     <View
                         style={{
@@ -91,7 +153,7 @@ const History = () => {
                             </Text>
                         </View>
                         <View style={{ flexDirection: "column" }}>
-                            <Text style={styles.defaultText}>{item.key2}</Text>
+                            <Text style={styles.defaultText}>{item.key}</Text>
                         </View>
                     </View>
                 )}
@@ -111,7 +173,7 @@ const History = () => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={onRefresh}
+                        //onRefresh={onRefresh}
                         tintColor="lightgrey"
                         title="Fetching your history..."
                         titleColor="lightgrey"
