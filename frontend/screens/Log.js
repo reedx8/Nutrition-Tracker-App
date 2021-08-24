@@ -16,6 +16,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const urlLog = "http://localhost:5000/log/add";
 
+const daysLogGetURL = "http://localhost:5000/daysLog/getLog/";
+const daysLogUpdateURL = "http://localhost:5000/daysLog/update/";
+const daysLogAddURL = "http://localhost:5000/daysLog/add/";
+
 const Log = ({ navigation }) => {
     /*
     const [logData, setLogData] = React.useState({
@@ -66,6 +70,58 @@ const Log = ({ navigation }) => {
             .catch(function () {
                 console.log("LOG ERROR: promise rejected");
             });
+
+        // Add to daysLog too
+        axios({
+            method: "post",
+            url: daysLogUpdateURL,
+            data: {
+                user: userID,
+                calories: calories,
+                protein: protein,
+            },
+        })
+            .then((res) => {
+                console.log(res.data);
+            })
+            .catch((error) =>
+                console.log("ERROR (frontend/daysLog): " + error)
+            );
+        /*
+        async function addToDaysLog() {
+            const response = await axios.get(daysLogGetURL + userID);
+            const data = await response.data;
+
+            //console.log("AddToDaysLog: " + data[0].totalCalories);
+            console.log("AddToDaysLog length: " + response.data.length);
+
+            if (response.data.length !== 0) {
+                axios
+                    .post(daysLogAddURL, {
+                        user: userID,
+                        calories: response.data[0].totalCalories + calories,
+                        protein: response.data[0].totalProtein + protein,
+                    })
+                    .then((res) => console.log(res.data))
+                    .catch((error) =>
+                        console.log("Error (frontend/EXISTS) -> " + error)
+                    );
+            } else {
+                axios
+                    .post(daysLogAddURL, {
+                        user: userID,
+                        calories: calories,
+                        protein: protein,
+                    })
+                    .then((res) => console.log(res.data))
+                    .catch((error) =>
+                        console.log("Error (frontend/DOESNT) -> " + error)
+                    );
+            }
+        }
+        addToDaysLog();
+        */
+
         /*
         axios
             .post("http://localhost:5000/log/add", {

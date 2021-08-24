@@ -46,8 +46,10 @@ connection.once("open", () => {
 // tells the server to use the following files
 const logsRouter = require("./routes/log");
 const usersRouter = require("./routes/users");
+const daysLogRouter = require("./routes/daysLog");
 app.use("/log", logsRouter);
 app.use("/users", usersRouter);
+app.use("/daysLog", daysLogRouter);
 
 //Starting the server..
 app.listen(port, () => {
