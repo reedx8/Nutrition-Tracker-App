@@ -87,7 +87,7 @@ const Log = ({ navigation }) => {
             .catch((error) =>
                 console.log("ERROR (frontend/daysLog): " + error)
             );
-        /*
+        /* (DELETE)
         async function addToDaysLog() {
             const response = await axios.get(daysLogGetURL + userID);
             const data = await response.data;

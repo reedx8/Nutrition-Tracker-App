@@ -27,6 +27,9 @@ router.route("/update").post((req, res) => {
                     totalCalories: req.body.calories,
                     totalProtein: req.body.protein,
                 },
+                $set: {
+                    user: req.body.user, // in case no daysLog exists
+                },
             },
             {
                 upsert: true, // Creates new daysLog if none exists
