@@ -9,6 +9,7 @@ import {
     TextInput,
     Alert,
     Image,
+    KeyboardAvoidingView,
 } from "react-native";
 import Button from "react-native-paper";
 import AwesomeButton from "react-native-really-awesome-button";
@@ -109,29 +110,31 @@ const Signin = ({ navigation }) => {
                     Welcome to Nutrition Tracker!
                 </Text>
             </View>
-            <Text style={styles.credentialsTitle}>E-mail</Text>
-            <TextInput
-                keyboardAppearance="dark"
-                value={email}
-                onChangeText={setEmail}
-                clearButtonMode="always"
-                backgroundColor="white"
-                height={40}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-            ></TextInput>
-            <Text style={styles.credentialsTitle}>Password</Text>
-            <TextInput
-                keyboardAppearance="dark"
-                value={password}
-                onChangeText={setPassword}
-                clearButtonMode="always"
-                backgroundColor="white"
-                height={40}
-                autoCapitalize="none"
-                autoCorrect={false}
-            ></TextInput>
+            <KeyboardAvoidingView behavior="padding">
+                <Text style={styles.credentialsTitle}>E-mail</Text>
+                <TextInput
+                    keyboardAppearance="dark"
+                    value={email}
+                    onChangeText={setEmail}
+                    clearButtonMode="always"
+                    backgroundColor="white"
+                    height={40}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                ></TextInput>
+                <Text style={styles.credentialsTitle}>Password</Text>
+                <TextInput
+                    keyboardAppearance="dark"
+                    value={password}
+                    onChangeText={setPassword}
+                    clearButtonMode="always"
+                    backgroundColor="white"
+                    height={40}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                ></TextInput>
+            </KeyboardAvoidingView>
             <AwesomeButton
                 backgroundColor="deepskyblue"
                 backgroundDarker="#1F1F1F"
