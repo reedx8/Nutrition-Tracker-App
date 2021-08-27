@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { set } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 const daysLogURL = "http://localhost:5000/daysLog/getLog/";
 
@@ -21,7 +21,7 @@ function test(history) {
 const History = () => {
     const [currentUsersID, setCurrentUsersID] = React.useState(null);
     const [historyData, setHistoryData] = React.useState(null);
-    //const [refreshing, setRefreshing] = React.useState(false);
+    const [refreshing, setRefreshing] = React.useState(false);
 
     const getData = async () => {
         try {
@@ -34,26 +34,22 @@ const History = () => {
         }
     };
 
-    /*
     async function getHistory() {
         try {
             const response = await axios.get(daysLogURL + currentUsersID);
-            // works perfectyly
-            //setHistoryData(response.data[1].totalCalories);
-            //console.log(response.data[0].totalCalories);
-            setHistoryData(() => {
-                return response.data;
-            });
+            const data = await response.data;
+            setHistoryData(data);
         } catch (error) {
             console.log("ERROR (getHistory) -> " + error);
         }
     }
-    */
+    /*
     function getHistory() {
         axios.get(daysLogURL + currentUsersID).then((response) => {
             setHistoryData(response.data);
         });
     }
+    */
     // useEffect stops the neverending fetching that happens with useFocusEffect
     /*
     useFocusEffect(
@@ -69,35 +65,28 @@ const History = () => {
         }
     }, [currentUsersID]);
 
-    /*
     const wait = (timeout) => {
         return new Promise((resolve) => setTimeout(resolve, timeout));
     };
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        //getHistory(currentUsersID);
+        if (currentUsersID !== null) {
+            getHistory();
+        }
         wait(2000).then(() => setRefreshing(false));
-    }, []);
-    */
+    }, [currentUsersID]);
 
-    let dayNumber = 0;
     if (historyData == null) {
         return <Text style={{ fontSize: 80 }}>Loading...</Text>;
     }
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
-            <Text style={{ color: "white" }}>
-                History: {historyData[1].totalCalories}
-            </Text>
-            {/*
             <FlatList
                 // Iterates via object.keyName
-                data={[{ key: "Ten" }]}
-                keyExtracter={(item, index) => {
-                    return index.toString();
-                }}
+                data={historyData}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <View
                         style={{
@@ -108,11 +97,16 @@ const History = () => {
                     >
                         <View style={{ flexDirection: "column" }}>
                             <Text style={styles.defaultText}>
-                                Day {(dayNumber += 1)}:{" "}
+                                {format(parseISO(item.createdAt), "eeee")}
+                            </Text>
+                            <Text style={styles.defaultSubText}>
+                                {format(parseISO(item.createdAt), "PP")}
                             </Text>
                         </View>
                         <View style={{ flexDirection: "column" }}>
-                            <Text style={styles.defaultText}>{item.key}</Text>
+                            <Text style={styles.defaultText}>
+                                {item.totalCalories}
+                            </Text>
                         </View>
                     </View>
                 )}
@@ -132,13 +126,13 @@ const History = () => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        //onRefresh={onRefresh}
+                        onRefresh={onRefresh}
                         tintColor="lightgrey"
                         title="Fetching your history..."
                         titleColor="lightgrey"
                     />
                 }
-            />*/}
+            />
         </SafeAreaView>
     );
 };
@@ -151,6 +145,10 @@ const styles = StyleSheet.create({
     defaultText: {
         color: "white",
         fontSize: 19,
+    },
+    defaultSubText: {
+        color: "lightgrey",
+        fontSize: 12,
     },
     emptyText: {
         color: "white",
