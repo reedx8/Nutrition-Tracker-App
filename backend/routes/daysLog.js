@@ -45,17 +45,16 @@ router.route("/update").post((req, res) => {
     */
 });
 
-// getting the user's existing daysLog for todays date
+// getting the user's existing daysLogs
 router.route("/getLog/:userID").get((req, res) => {
     daysLog
         .find({
             user: req.params.userID,
-            createdAt: {
-                $gte: startOfDay(new Date()),
-                $lte: endOfDay(new Date()),
-            },
         })
-        .then((log) => res.json(log))
+        .then((logs) => {
+            //console.log(logs);
+            res.json(logs);
+        })
         .catch((error) =>
             res.status(400).json("Error (dayLog/GET) -> " + error)
         );

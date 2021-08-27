@@ -15,130 +15,89 @@ import { set } from "date-fns";
 
 const daysLogURL = "http://localhost:5000/daysLog/getLog/";
 
-/*
-// returns key/value pairs of date/totalCalories+Protein+etc..
-async function getHistory(usersID) {
-    const response = await axios.get(url + usersID);
-    const data = await response.data;
+function test(history) {
+    console.log("Total Calories: " + history);
 }
-*/
-
-const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-};
-
 const History = () => {
-    const [currentUsersID, setCurrentUsersID] = React.useState("");
-    const [historyData, setHistoryData] = React.useState();
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    let dayNumber = 0;
-    console.log("hello");
+    const [currentUsersID, setCurrentUsersID] = React.useState(null);
+    const [historyData, setHistoryData] = React.useState(null);
+    //const [refreshing, setRefreshing] = React.useState(false);
 
     const getData = async () => {
         try {
             const value = await AsyncStorage.getItem("@storage_Key");
             if (value !== null) {
                 setCurrentUsersID(value);
-                console.log(currentUsersID);
             }
         } catch (error) {
             console.log("Error reading AsyncStorage value -> " + error);
         }
     };
-    getData();
 
-    // returns key/value pairs of date/totalCalories+Protein+etc..
-    async function getHistory(usersID) {
+    /*
+    async function getHistory() {
         try {
-            const response = await axios.get(daysLogURL + usersID);
-            //const responseData = await response.data[0];
-            setHistoryData(response.data[0]);
+            const response = await axios.get(daysLogURL + currentUsersID);
+            // works perfectyly
+            //setHistoryData(response.data[1].totalCalories);
+            //console.log(response.data[0].totalCalories);
+            setHistoryData(() => {
+                return response.data;
+            });
         } catch (error) {
             console.log("ERROR (getHistory) -> " + error);
         }
-
-        //console.log(historyData);
     }
-    //getHistory(currentUsersID);
-
-    /*
-    axios
-        .get(url + currentUsersID)
-        .then((res) => {
-            setHistoryData(res.data);
-            console.log(res.data);
-        })
-        .catch((error) => console.log("ERROR (Gethistory) -> " + error));
     */
+    function getHistory() {
+        axios.get(daysLogURL + currentUsersID).then((response) => {
+            setHistoryData(response.data);
+        });
+    }
+    // useEffect stops the neverending fetching that happens with useFocusEffect
+    /*
+    useFocusEffect(
+        React.useCallback(() => {
+            getHistory();
+        })
+    );
+    */
+    React.useEffect(() => {
+        getData();
+        if (currentUsersID !== null) {
+            getHistory();
+        }
+    }, [currentUsersID]);
 
     /*
+    const wait = (timeout) => {
+        return new Promise((resolve) => setTimeout(resolve, timeout));
+    };
+
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         //getHistory(currentUsersID);
         wait(2000).then(() => setRefreshing(false));
-    });
-    */
-
-    React.useEffect(() => {
-        getHistory(currentUsersID);
-        console.log(historyData);
-
-        /*
-        // Works, but not on the first run of component
-        axios({
-            method: "get",
-            url: daysLogURL + currentUsersID,
-        })
-            .then((res) => {
-                setHistoryData(res.data);
-                console.log("DATA: " + res.data[0].totalCalories);
-            })
-            .catch((error) => console.log(error));
-        */
-        /*
-        axios
-            .get(daysLogURL + currentUsersID)
-            .then((res) => {
-                setHistoryData(res.data);
-                console.log("HISTORY: " + historyData);
-                console.log("HISTORY RES: " + res.data);
-            })
-            .catch((error) => console.log("ERROR (Gethistory) -> " + error));
-            */
     }, []);
-
-    /*
-    useFocusEffect(
-        React.useCallback(() => {
-            // Fetching data too much
-            //getHistory(currentUsersID);
-            axios
-                .get(url + currentUsersID)
-                .then((res) => {
-                    setHistoryData(res.data[0]);
-                    //console.log(historyData);
-                })
-                .catch((error) =>
-                    console.log("ERROR (Gethistory) -> " + error)
-                );
-        })
-    );
     */
 
-    //console.log(response.data);
-
+    let dayNumber = 0;
+    if (historyData == null) {
+        return <Text style={{ fontSize: 80 }}>Loading...</Text>;
+    }
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
+            <Text style={{ color: "white" }}>
+                History: {historyData[1].totalCalories}
+            </Text>
+            {/*
             <FlatList
                 // Iterates via object.keyName
                 data={[{ key: "Ten" }]}
-                /*
                 keyExtracter={(item, index) => {
                     return index.toString();
                 }}
-                */
                 renderItem={({ item }) => (
                     <View
                         style={{
@@ -179,7 +138,7 @@ const History = () => {
                         titleColor="lightgrey"
                     />
                 }
-            />
+            />*/}
         </SafeAreaView>
     );
 };
