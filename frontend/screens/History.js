@@ -144,11 +144,11 @@ const styles = StyleSheet.create({
     },
     defaultText: {
         color: "white",
-        fontSize: 19,
+        fontSize: 22,
     },
     defaultSubText: {
         color: "lightgrey",
-        fontSize: 12,
+        fontSize: 13,
     },
     emptyText: {
         color: "white",
