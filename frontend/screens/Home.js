@@ -27,6 +27,8 @@ const Home = ({ navigation }) => {
     // To get total calories from the log database, by using React hooks.
     const [totalCalories, setTotalCalories] = React.useState(0);
     const [totalProtein, setTotalProtein] = React.useState(0);
+    const [totalFats, setTotalFats] = React.useState(0);
+    const [totalCarbs, setTotalCarbs] = React.useState(0);
     const [breakfastCalories, setBreakfast] = React.useState(0);
     const [lunchCalories, setLunch] = React.useState(0);
     const [dinnerCalories, setDinner] = React.useState(0);
@@ -63,6 +65,20 @@ const Home = ({ navigation }) => {
         setTotalProtein(() => {
             for (const i in response.data) {
                 total += response.data[i].protein;
+            }
+            return total;
+        });
+        total = 0;
+        setTotalFats(() => {
+            for (const i in response.data) {
+                total += response.data[i].fats;
+            }
+            return total;
+        });
+        total = 0;
+        setTotalCarbs(() => {
+            for (const i in response.data) {
+                total += response.data[i].carbs;
             }
             return total;
         });
@@ -280,7 +296,9 @@ const Home = ({ navigation }) => {
                             <Text style={styles.nutrientTitle}>Fats</Text>
                         </View>
                         <View style={styles.macrosInnerRow}>
-                            <Text style={styles.nutrientNumber}>0g</Text>
+                            <Text style={styles.nutrientNumber}>
+                                {totalFats}g
+                            </Text>
                         </View>
                     </View>
                     <View style={styles.macrosCol}>
@@ -288,7 +306,9 @@ const Home = ({ navigation }) => {
                             <Text style={styles.nutrientTitle}>Carbs</Text>
                         </View>
                         <View style={styles.macrosInnerRow}>
-                            <Text style={styles.nutrientNumber}>0g</Text>
+                            <Text style={styles.nutrientNumber}>
+                                {totalCarbs}g
+                            </Text>
                         </View>
                     </View>
                 </View>

@@ -24,6 +24,14 @@ const logSchema = new Schema(
             type: Number,
             required: true,
         },
+        fats: {
+            type: Number,
+            required: true,
+        },
+        carbs: {
+            type: Number,
+            required: true,
+        },
         mealType: {
             type: String,
             required: true,

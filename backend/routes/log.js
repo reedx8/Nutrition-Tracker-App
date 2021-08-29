@@ -15,21 +15,18 @@ router.route("/add").post((req, res) => {
     const name = req.body.name;
     const calories = Number(req.body.calories);
     const protein = Number(req.body.protein);
+    const fats = Number(req.body.fats);
+    const carbs = Number(req.body.carbs);
     const mealType = req.body.mealType;
     const user = req.body.user;
-    /*
-    import("../../frontend/screens/Signin.js").then((module) => {
-        const user = module.getUserId();
-    });
-    */
-    //const date = Date.parse(req.body.date);
-    //console.log(user);
 
     const newLog = new Log({
         user,
         name,
         calories,
         protein,
+        fats,
+        carbs,
         mealType,
         //date,
     });

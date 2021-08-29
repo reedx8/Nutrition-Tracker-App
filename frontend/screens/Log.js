@@ -33,6 +33,8 @@ const Log = ({ navigation }) => {
     const [foodName, setName] = React.useState("");
     const [calories, setCalories] = React.useState("");
     const [protein, setProtein] = React.useState("");
+    const [fats, setFats] = React.useState("");
+    const [carbs, setCarbs] = React.useState("");
     const [checked, setChecked] = React.useState("");
     const [mealType, setValue] = React.useState("");
     const [userID, setUserID] = React.useState("");
@@ -61,6 +63,8 @@ const Log = ({ navigation }) => {
                 name: foodName,
                 calories: calories,
                 protein: protein,
+                fats: fats,
+                carbs: carbs,
                 mealType: mealType,
             },
         })
@@ -223,8 +227,9 @@ const Log = ({ navigation }) => {
                         Enter in values as they appear on the Nutrition Facts.
                         You can enter in serving size later.
                     </Caption>
+
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Calories: </Text>
+                        <Text style={styles.defaultText}>Calories:</Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -238,7 +243,7 @@ const Log = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Protein: </Text>
+                        <Text style={styles.defaultText}>Protein:</Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -248,6 +253,34 @@ const Log = ({ navigation }) => {
                             textAlign="right"
                             value={protein}
                             onChangeText={setProtein}
+                            clearButtonMode="always"
+                        />
+                    </View>
+                    <View style={styles.entriesRow}>
+                        <Text style={styles.defaultText}>Fats:</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            keyboardType="number-pad"
+                            placeholder="optional"
+                            keyboardAppearance="dark"
+                            maxLength={5}
+                            textAlign="right"
+                            value={fats}
+                            onChangeText={setFats}
+                            clearButtonMode="always"
+                        />
+                    </View>
+                    <View style={styles.entriesRow}>
+                        <Text style={styles.defaultText}>Carbs:</Text>
+                        <TextInput
+                            style={styles.inputBox}
+                            keyboardType="number-pad"
+                            placeholder="optional"
+                            keyboardAppearance="dark"
+                            maxLength={5}
+                            textAlign="right"
+                            value={carbs}
+                            onChangeText={setCarbs}
                             clearButtonMode="always"
                         />
                     </View>
@@ -304,7 +337,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: "#1F1F1F",
-        height: "9%",
+        height: "7%",
         borderRadius: 10,
         //padding: 5,
     },

@@ -7,6 +7,7 @@ import {
     StatusBar,
     SafeAreaView,
     RefreshControl,
+    ActivityIndicator,
 } from "react-native";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
@@ -38,7 +39,7 @@ const History = () => {
         try {
             const response = await axios.get(daysLogURL + currentUsersID);
             const data = await response.data;
-            setHistoryData(data);
+            setHistoryData(data.reverse());
         } catch (error) {
             console.log("ERROR (getHistory) -> " + error);
         }
@@ -78,7 +79,13 @@ const History = () => {
     }, [currentUsersID]);
 
     if (historyData == null) {
-        return <Text style={{ fontSize: 80 }}>Loading...</Text>;
+        //return <Text style={{ fontSize: 80 }}>Loading...</Text>;
+        return (
+            <SafeAreaView style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="lightgrey" />
+                {/*<Text style={{ color: "lightgrey" }}>Loading...</Text>*/}
+            </SafeAreaView>
+        );
     }
     return (
         <SafeAreaView style={styles.container}>
@@ -142,6 +149,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#000000",
         flexDirection: "column",
     },
+    loadingContainer: {
+        flex: 1,
+        backgroundColor: "#000000",
+        justifyContent: "center",
+    },
+    horizontal: {},
     defaultText: {
         color: "white",
         fontSize: 22,

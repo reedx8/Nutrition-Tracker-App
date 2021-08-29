@@ -10,6 +10,7 @@ import {
     Alert,
     Image,
     KeyboardAvoidingView,
+    Platform,
 } from "react-native";
 import Button from "react-native-paper";
 import AwesomeButton from "react-native-really-awesome-button";
@@ -110,7 +111,9 @@ const Signin = ({ navigation }) => {
                     Welcome to Nutrition Tracker!
                 </Text>
             </View>
-            <KeyboardAvoidingView behavior="padding">
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+            >
                 <Text style={styles.credentialsTitle}>E-mail</Text>
                 <TextInput
                     keyboardAppearance="dark"
