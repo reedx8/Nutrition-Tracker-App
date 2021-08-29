@@ -75,7 +75,7 @@ const Log = ({ navigation }) => {
                 console.log("LOG ERROR: promise rejected");
             });
 
-        // Add to daysLog too
+        // Add to daysLog collection too
         axios({
             method: "post",
             url: daysLogUpdateURL,
@@ -83,6 +83,8 @@ const Log = ({ navigation }) => {
                 user: userID,
                 calories: calories,
                 protein: protein,
+                fats: fats,
+                carbs: carbs,
             },
         })
             .then((res) => {

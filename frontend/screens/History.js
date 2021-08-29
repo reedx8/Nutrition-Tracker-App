@@ -16,9 +16,6 @@ import { format, parseISO } from "date-fns";
 
 const daysLogURL = "http://localhost:5000/daysLog/getLog/";
 
-function test(history) {
-    console.log("Total Calories: " + history);
-}
 const History = () => {
     const [currentUsersID, setCurrentUsersID] = React.useState(null);
     const [historyData, setHistoryData] = React.useState(null);

@@ -16,6 +16,14 @@ const daysLogSchema = new Schema(
             type: Number,
             required: true,
         },
+        totalFats: {
+            type: Number,
+            required: true,
+        },
+        totalCarbs: {
+            type: Number,
+            required: true,
+        },
     },
     {
         timestamps: true,

@@ -26,6 +26,8 @@ router.route("/update").post((req, res) => {
                     // Increments both fields if daysLog exists
                     totalCalories: req.body.calories,
                     totalProtein: req.body.protein,
+                    totalFats: req.body.fats,
+                    totalCarbs: req.body.carbs,
                 },
                 $set: {
                     user: req.body.user, // in case no daysLog exists
