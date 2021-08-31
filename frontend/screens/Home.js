@@ -205,6 +205,34 @@ const Home = ({ navigation }) => {
             */}
             <StatusBar barStyle="light-content" />
             <View style={styles.header}>
+                <View style={{ flexDirection: "column", width: "65%" }}>
+                    <Text style={{ color: "white", fontSize: 25 }}>Today</Text>
+                    <Text style={styles.setTimeText}>{getTodaysDate()}</Text>
+                </View>
+                <View
+                    style={{
+                        flexDirection: "column",
+                        width: "35%",
+                        //direction: "ltr",
+                        //justifyContent: "center",
+                        //alignSelf: "flex-end",
+                    }}
+                >
+                    <Button
+                        icon="account-circle"
+                        mode="text"
+                        labelStyle={{
+                            color: "lightgrey",
+                            fontSize: 17, // adjusts text and icon size
+                        }}
+                        contentStyle={{}}
+                    >
+                        Profile
+                    </Button>
+                </View>
+            </View>
+            {/*
+            <View style={styles.header}>
                 <Text style={styles.setTime}>{getTodaysDate()}</Text>
                 <Button
                     icon="account-circle"
@@ -213,23 +241,24 @@ const Home = ({ navigation }) => {
                 >
                     Profile
                 </Button>
-                {/*<Image style={styles.setUserIcon} source={userIcon} />*/}
+                {//<Image style={styles.setUserIcon} source={userIcon} />}
             </View>
+            */}
             <ScrollView
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefresh}
                         tintColor="lightgrey"
-                        title="Fetching your nutrition data..."
+                        title="Fetching new nutrition data..."
                         titleColor="lightgrey"
                     />
                 }
             >
-                <View style={styles.calories}>
+                <View style={styles.circularCaloriesSection}>
                     {/*<Text style={styles.totalCals}>(Total Calories Area)</Text>*/}
                     <AnimatedCircularProgress
-                        size={160}
+                        size={200}
                         width={15}
                         fill={(totalCalories / caloriesRDA) * 100}
                         backgroundWidth={22}
@@ -250,36 +279,61 @@ const Home = ({ navigation }) => {
                             </Text>
                         )}
                     </AnimatedCircularProgress>
-                    <View style={styles.calorieBreakdown}>
-                        <View style={styles.meals}>
+                </View>
+                <View
+                    style={{ flexDirection: "row", justifyContent: "center" }}
+                >
+                    <Text style={styles.totalCalsText}>
+                        TOTAL: {caloriesRDA} calories/day
+                    </Text>
+                </View>
+                <View style={styles.calorieBreakdownSection}>
+                    <View style={styles.mealsCol}>
+                        <View style={styles.mealsRow}>
                             <Text style={styles.nutrientTitle}>Breakfast</Text>
-                            <Text style={styles.nutrientTitle}>Lunch</Text>
-                            <Text style={styles.nutrientTitle}>Dinner</Text>
                         </View>
-                        <View style={styles.meals}>
+                        <View style={styles.mealsRow}>
                             <Text style={styles.nutrientNumber}>
                                 {breakfastCalories}
                             </Text>
+                        </View>
+                        <View style={styles.mealsRow}>
+                            <Text style={styles.nutrientTitle}>Snacks</Text>
+                        </View>
+                        <View style={styles.mealsRow}>
+                            <Text style={styles.nutrientNumber}>
+                                {snacksCalories}
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.mealsCol}>
+                        <View style={styles.mealsRow}>
+                            <Text style={styles.nutrientTitle}>Lunch</Text>
+                        </View>
+                        <View style={styles.mealsRow}>
                             <Text style={styles.nutrientNumber}>
                                 {lunchCalories}
                             </Text>
+                        </View>
+                    </View>
+                    <View style={styles.mealsCol}>
+                        <View style={styles.mealsRow}>
+                            <Text style={styles.nutrientTitle}>Dinner</Text>
+                        </View>
+                        <View style={styles.mealsRow}>
                             <Text style={styles.nutrientNumber}>
                                 {dinnerCalories}
                             </Text>
                         </View>
-                        <View style={styles.meals}>
-                            <Text style={styles.nutrientTitle}>Snacks</Text>
+                        <View style={styles.mealsRow}>
                             <Text style={styles.nutrientTitle}>Exercise</Text>
                         </View>
-                        <View style={styles.meals}>
-                            <Text style={styles.nutrientNumber}>
-                                {snacksCalories}
-                            </Text>
+                        <View style={styles.mealsRow}>
                             <Text style={styles.nutrientNumber}>0</Text>
                         </View>
                     </View>
                 </View>
-                <View style={styles.macronutrients}>
+                <View style={styles.macronutrientsSection}>
                     <Title style={{ color: "white" }}>Macronutrients</Title>
                     <View style={styles.macrosCol}>
                         <View style={styles.macrosInnerRow}>
@@ -312,11 +366,6 @@ const Home = ({ navigation }) => {
                         </View>
                     </View>
                 </View>
-                <View style={styles.successCalender}>
-                    <Text style={{ color: "white" }}>
-                        (Success Calender Area)
-                    </Text>
-                </View>
                 {/*
             <View>
                 <FloatingAction
@@ -334,6 +383,7 @@ const Home = ({ navigation }) => {
                     color="white"
                     mode="contained"
                     dark={false}
+                    style={{ margin: 10 }}
                 >
                     (Sign in screen)
                 </Button>
@@ -365,62 +415,60 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: "row",
-        justifyContent: "space-between",
+        //justifyContent: "space-between",
         padding: 20,
-    },
-    calories: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        padding: 20,
-    },
-    totalCals: {
-        flexDirection: "column",
-        color: "white",
-    },
-    calorieBreakdown: {
-        flexDirection: "column",
-        //color: "white",
-        width: "60%",
-        margin: 5,
-        backgroundColor: "#1F1F1F",
-        justifyContent: "space-around",
-        borderRadius: 10,
-        padding: 8,
-    },
-    meals: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        //color: "white",
-    },
-    macronutrients: {
-        flexDirection: "row",
-        alignSelf: "center",
-        backgroundColor: "#1F1F1F",
-        borderRadius: 10,
         width: "100%",
-        margin: 5,
-        justifyContent: "space-between",
+    },
+    circularCaloriesSection: {
+        flexDirection: "row",
+        justifyContent: "center",
         padding: 20,
+        //flex: 2,
+    },
+    totalCalsText: {
+        // DELETE
+        color: "lightgrey",
+    },
+    calorieBreakdownSection: {
+        flexDirection: "row",
+        //color: "white",
+        //width: "100%",
+        //height: "30%",
+        margin: 10,
+        backgroundColor: "#1F1F1F",
+        justifyContent: "space-between",
+        borderRadius: 10,
+        padding: 15, // CHANGE?
+    },
+    mealsRow: {
+        flexDirection: "row",
+        marginBottom: 7,
+        //justifyContent: "space-between",
+    },
+    mealsCol: {
+        flexDirection: "column",
+        //justifyContent: "space-between",
+    },
+    macronutrientsSection: {
+        flexDirection: "row",
+        //flex: 2,
+        //alignSelf: "center",
+        backgroundColor: "#1F1F1F",
+        borderRadius: 10,
+        //width: "100%",
+        margin: 10,
+        justifyContent: "space-between",
+        padding: 15,
     },
     macrosCol: {
         flexDirection: "column",
     },
     macrosInnerRow: {
         flexDirection: "row",
-        color: "red",
     },
-    successCalender: {
-        flexDirection: "row",
-        padding: 10,
-        alignSelf: "center",
-        backgroundColor: "#1F1F1F",
-        borderRadius: 10,
-        width: "100%",
-        margin: 5,
-    },
-    setTime: {
-        color: "white",
-        fontSize: 25,
+    setTimeText: {
+        color: "grey",
+        fontSize: 20,
     },
     setUserIcon: {
         height: 34,

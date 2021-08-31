@@ -125,6 +125,7 @@ const Signin = ({ navigation }) => {
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
+                    textContentType="emailAddress"
                 ></TextInput>
                 <Text style={styles.credentialsTitle}>Password</Text>
                 <TextInput
@@ -136,6 +137,8 @@ const Signin = ({ navigation }) => {
                     height={40}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    secureTextEntry={true}
+                    textContentType="password"
                 ></TextInput>
             </KeyboardAvoidingView>
             <AwesomeButton
