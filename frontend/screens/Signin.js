@@ -83,6 +83,8 @@ const Signin = ({ navigation }) => {
             .then((res) => {
                 storeData(res.data._id);
                 console.log(res.data);
+                navigation.navigate("Dailygoals");
+                //navigation.navigate("HomeTabs");
             })
             .catch((error) => console.log("ERROR: Promise rejected (sign up)"));
         /*
@@ -96,7 +98,6 @@ const Signin = ({ navigation }) => {
                 console.log("ERROR: Promise rejected (signup)");
             });
         */
-        navigation.navigate("HomeTabs");
     }
 
     return (

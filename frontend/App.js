@@ -15,6 +15,7 @@ import { Signin } from "./screens";
 import { Home } from "./screens";
 import { Log } from "./screens";
 import { History } from "./screens";
+import { Dailygoals } from "./screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Button } from "react-native-paper";
 
@@ -30,6 +31,7 @@ export default function App() {
                 initialRouteName={"Signin"}
             >
                 <Stack.Screen name="Signin" component={Signin} />
+                <Stack.Screen name="Dailygoals" component={Dailygoals} />
                 <Stack.Screen name="HomeTabs" component={homeTabView} />
             </Stack.Navigator>
         </NavigationContainer>

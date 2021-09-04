@@ -387,6 +387,15 @@ const Home = ({ navigation }) => {
                 >
                     (Sign in screen)
                 </Button>
+                <Button
+                    onPress={() => navigation.navigate("Dailygoals")}
+                    color="white"
+                    mode="contained"
+                    dark={false}
+                    style={{ margin: 10 }}
+                >
+                    (Daily goals screen)
+                </Button>
             </ScrollView>
         </SafeAreaView>
     );
