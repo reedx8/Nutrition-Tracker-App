@@ -24,6 +24,12 @@ router.route("/getUser").get((req, res) => {
     res.json(req.user);
 });
 
+router.route("/getUsersAccountData/:userID").get((req, res) => {
+    User.findById(req.params.userID)
+        .then((usersAccount) => res.json(usersAccount))
+        .catch((error) => res.status(400).json(error));
+});
+
 // Signup user (post request)
 router.route("/signup").post((req, res) => {
     const email = req.body.email;

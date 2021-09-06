@@ -21,6 +21,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
 const axios = require("axios");
 const url = "http://localhost:5000/log/";
+const userURL = "http://localhost:5000/users/getUsersAccountData/";
 const caloriesRDA = 2500;
 
 const Home = ({ navigation }) => {
@@ -35,6 +36,7 @@ const Home = ({ navigation }) => {
     const [snacksCalories, setSnacks] = React.useState(0);
     const [currentUsersID, setCurrentUsersID] = React.useState("");
     const [refreshing, setRefreshing] = React.useState(false);
+    const [calorieGoal, setCalorieGoal] = React.useState(0);
 
     const getData = async () => {
         try {
@@ -55,8 +57,25 @@ const Home = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
             getUsersNutritionData();
+            getNutritionGoals();
         })
     );
+
+    async function getNutritionGoals() {
+        try {
+            const response = await axios.get(userURL + currentUsersID);
+            //console.log(response.data);
+            setCalorieGoal(() => {
+                if (response.data.goals.calories == null) {
+                    return 0;
+                }
+                return response.data.goals.calories;
+            });
+        } catch (error) {
+            console.log("screens/Home.js: " + error);
+        }
+        console.log(calorieGoal);
+    }
 
     async function getUsersNutritionData() {
         const response = await axios.get(url + currentUsersID);
@@ -126,62 +145,6 @@ const Home = ({ navigation }) => {
             return totalCals;
         });
     }
-    /*
-    function getUsersNutritionData() {
-        axios.get(url + currentUsersID).then((response) => {
-            //console.log(response);
-            setTotalProtein(() => {
-                for (const i in response.data) {
-                    total += response.data[i].protein;
-                }
-                return total;
-            });
-            total = 0;
-            setBreakfast(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "breakfast") {
-                        total += response.data[i].calories;
-                    }
-                }
-                return total;
-            });
-            totalCals += total;
-            total = 0;
-            setLunch(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "lunch") {
-                        total += response.data[i].calories;
-                    }
-                }
-                return total;
-            });
-            totalCals += total;
-            total = 0;
-            setDinner(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "dinner") {
-                        total += response.data[i].calories;
-                    }
-                }
-                return total;
-            });
-            totalCals += total;
-            total = 0;
-            setSnacks(() => {
-                for (const i in response.data) {
-                    if (response.data[i].mealType == "snacks") {
-                        total += response.data[i].calories;
-                    }
-                }
-                return total;
-            });
-            totalCals += total;
-            setTotalCalories(() => {
-                return totalCals;
-            });
-        });
-    }
-    */
 
     const wait = (timeout) => {
         return new Promise((resolve) => setTimeout(resolve, timeout));
@@ -190,6 +153,7 @@ const Home = ({ navigation }) => {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getUsersNutritionData();
+        getNutritionGoals();
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
@@ -260,7 +224,7 @@ const Home = ({ navigation }) => {
                     <AnimatedCircularProgress
                         size={200}
                         width={15}
-                        fill={(totalCalories / caloriesRDA) * 100}
+                        fill={(totalCalories / calorieGoal) * 100}
                         backgroundWidth={22}
                         tintColor="deepskyblue"
                         rotation={360}
@@ -275,7 +239,10 @@ const Home = ({ navigation }) => {
                                     fontSize: 20,
                                 }}
                             >
-                                {getRemainingCalories(totalCalories)} cals left
+                                {getRemainingCalories(
+                                    totalCalories,
+                                    calorieGoal
+                                )}
                             </Text>
                         )}
                     </AnimatedCircularProgress>
@@ -284,7 +251,7 @@ const Home = ({ navigation }) => {
                     style={{ flexDirection: "row", justifyContent: "center" }}
                 >
                     <Text style={styles.totalCalsText}>
-                        TOTAL: {caloriesRDA} calories/day
+                        GOAL: {calorieGoal} calories/day
                     </Text>
                 </View>
                 <View style={styles.calorieBreakdownSection}>
@@ -401,14 +368,26 @@ const Home = ({ navigation }) => {
     );
 };
 
-function getRemainingCalories(calories) {
+function getRemainingCalories(totalCalories, calorieGoal) {
     //let caloriesRDA = 2500;
+    if (totalCalories == calorieGoal) {
+        return "0 cals left";
+    } else if (totalCalories > calorieGoal) {
+        const diff = totalCalories - calorieGoal;
+        return diff + " cals over";
+    } else {
+        const diff = calorieGoal - totalCalories;
+        const answer = diff + " cals left";
+        return answer;
+    }
 
+    /*
     if (calories >= caloriesRDA) {
         return 0;
     } else {
-        return caloriesRDA - calories;
+        return caloriesRDA - calories + " cals left";
     }
+    */
 }
 function getTodaysDate() {
     let todaysDate = format(new Date(), "EEEE, do MMMM");
