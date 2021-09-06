@@ -28,6 +28,7 @@ router.route("/getUser").get((req, res) => {
 router.route("/signup").post((req, res) => {
     const email = req.body.email;
     const password = req.body.password;
+    const ID = req.body.ID;
 
     // TODO: Add reg express tests for email and password
     if (email == "" || password == "") {
@@ -53,7 +54,8 @@ router.route("/signup").post((req, res) => {
                         .hash(password, saltRounds)
                         .then((hashedPassword) => {
                             const newUser = new User({
-                                _id: new mongoose.Types.ObjectId(),
+                                //_id: new mongoose.Types.ObjectId(),
+                                _id: ID,
                                 email,
                                 password: hashedPassword,
                             });
@@ -187,6 +189,24 @@ router.route("/signin").post((req, res, next) => {
             });
     }
     */
+});
+
+router.route("/addGoals").post((req, res) => {
+    User.updateOne(
+        {
+            _id: req.body.user,
+        },
+        {
+            $set: {
+                "goals.calories": req.body.calorieGoal,
+                "goals.protein": req.body.proteinGoal,
+                "goals.fat": req.body.fatGoal,
+                "goals.carbs": req.body.carbsGoal,
+            },
+        }
+    )
+        .then(() => res.json("User's nutrition goals added"))
+        .catch((error) => res.status(400).json("routes/users.js:" + error));
 });
 
 module.exports = router;

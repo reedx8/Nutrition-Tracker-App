@@ -17,6 +17,12 @@ const userSchema = new Schema(
             trim: true,
             minlength: 6,
         },
+        goals: {
+            calories: Number,
+            protein: Number,
+            fat: Number,
+            carbs: Number,
+        },
     },
     {
         timestamps: true,

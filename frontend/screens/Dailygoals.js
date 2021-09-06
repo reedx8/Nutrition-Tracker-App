@@ -15,20 +15,52 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styleSheets } from "min-document";
 
-const usersURL = "http://localhost:5000/users/";
+const usersURL = "http://localhost:5000/users/addGoals/";
 
 const Dailygoals = ({ navigation }) => {
     const [dailyCalories, setCalories] = React.useState("");
     const [dailyProtein, setProtein] = React.useState("");
     const [dailyFats, setFats] = React.useState("");
     const [dailyCarbs, setCarbs] = React.useState("");
+    const [userID, setUserID] = React.useState("");
 
-    // get async data
+    // Gets user's id to send to backend during obSubmitPress()
+    const getData = async () => {
+        try {
+            const value = await AsyncStorage.getItem("@storage_Key");
+            if (value != null) {
+                setUserID(value);
+            }
+        } catch (error) {
+            console.log("Error reading AsyncStorage value: " + error);
+        }
+    };
+    getData();
 
-    // onSubmitPress()
+    /*
+    React.useEffect(() => {
+        getData();
+    }, [userID]);
+    */
+
+    // Post user's entered in nutrition goals
     function onSubmitPress() {
+        axios({
+            method: "post",
+            url: usersURL,
+            data: {
+                calorieGoal: dailyCalories,
+                proteinGoal: dailyProtein,
+                fatGoal: dailyFats,
+                carbsGoal: dailyCarbs,
+                user: userID,
+            },
+        })
+            .then((res) => console.log(res.data))
+            .catch((error) => console.log("screens/dailygoals.js: " + error));
         navigation.navigate("HomeTabs");
     }
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
@@ -60,6 +92,7 @@ const Dailygoals = ({ navigation }) => {
                         textAlign="right"
                         value={dailyCalories}
                         onChangeText={setCalories}
+                        defaultValue="0"
                     />
                 </View>
                 <View style={styles.entriesRow}>
@@ -73,6 +106,7 @@ const Dailygoals = ({ navigation }) => {
                         textAlign="right"
                         value={dailyProtein}
                         onChangeText={setProtein}
+                        defaultValue="0"
                     />
                 </View>
                 <View style={styles.entriesRow}>
@@ -86,6 +120,7 @@ const Dailygoals = ({ navigation }) => {
                         textAlign="right"
                         value={dailyFats}
                         onChangeText={setFats}
+                        defaultValue="0"
                     />
                 </View>
                 <View style={styles.entriesRow}>
@@ -99,6 +134,7 @@ const Dailygoals = ({ navigation }) => {
                         textAlign="right"
                         value={dailyCarbs}
                         onChangeText={setCarbs}
+                        defaultValue="0"
                     />
                 </View>
             </KeyboardAvoidingView>

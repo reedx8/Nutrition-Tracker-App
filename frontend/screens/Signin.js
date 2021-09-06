@@ -17,15 +17,19 @@ import AwesomeButton from "react-native-really-awesome-button";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// bson-objectid needed in order to solve race condition when registering
+var ObjectID = require("bson-objectid");
+
 const urlSignin = "http://localhost:5000/users/signin";
 const urlSignup = "http://localhost:5000/users/signup";
 
 const Signin = ({ navigation }) => {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    //const [userId, setUserId] = React.useState("");
+    //const [userID, setUserID] = React.useState(null);
 
     const storeData = async (value) => {
+        console.log("async: " + value);
         try {
             await AsyncStorage.setItem("@storage_Key", value);
         } catch (error) {
@@ -70,34 +74,29 @@ const Signin = ({ navigation }) => {
         //navigation.navigate("HomeTabs");
     }
 
-    function onRegisterPress() {
+    async function onRegisterPress() {
+        let ID = ObjectID();
+
         axios({
             method: "POST",
             data: {
                 email: email,
                 password: password,
+                ID: ID,
             },
             withCredentials: true,
             url: urlSignup,
         })
             .then((res) => {
-                storeData(res.data._id);
-                console.log(res.data);
-                navigation.navigate("Dailygoals");
-                //navigation.navigate("HomeTabs");
+                if (res.data.status !== "FAILED") {
+                    storeData(ID.toString());
+                    console.log(res.data);
+                    navigation.navigate("Dailygoals");
+                } else {
+                    Alert.alert("Failed registering user");
+                }
             })
             .catch((error) => console.log("ERROR: Promise rejected (sign up)"));
-        /*
-        axios
-            .post(urlSignup, {
-                email: email,
-                password: password,
-            })
-            .then((res) => console.log(res.data))
-            .catch(function () {
-                console.log("ERROR: Promise rejected (signup)");
-            });
-        */
     }
 
     return (
