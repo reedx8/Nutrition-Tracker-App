@@ -56,7 +56,9 @@ const Dailygoals = ({ navigation }) => {
                 user: userID,
             },
         })
-            .then((res) => console.log(res.data))
+            .then((res) => {
+                console.log(res.data.message);
+            })
             .catch((error) => console.log("screens/dailygoals.js: " + error));
         navigation.navigate("HomeTabs");
     }
