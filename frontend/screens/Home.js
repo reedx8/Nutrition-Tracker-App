@@ -220,13 +220,27 @@ const Home = ({ navigation }) => {
                 }
             >
                 <View style={styles.circularCaloriesSection}>
-                    {/*<Text style={styles.totalCals}>(Total Calories Area)</Text>*/}
                     <AnimatedCircularProgress
                         size={200}
                         width={15}
-                        fill={(totalCalories / calorieGoal) * 100}
+                        fill={getAnimatedCircleFillValue(
+                            totalCalories,
+                            calorieGoal
+                        )}
+                        //fill={(totalCalories / calorieGoal) * 100}
+                        /*
+                        fill={() =>
+                            totalCalories >= calorieGoal
+                                ? 100
+                                : (totalCalories / calorieGoal) * 100
+                        }
+                        */
                         backgroundWidth={22}
-                        tintColor="deepskyblue"
+                        tintColor={
+                            totalCalories > calorieGoal
+                                ? "#df5234"
+                                : "deepskyblue"
+                        }
                         rotation={360}
                         lineCap="round"
                         backgroundColor="#1F1F1F"
@@ -380,18 +394,15 @@ function getRemainingCalories(totalCalories, calorieGoal) {
         const answer = diff + " cals left";
         return answer;
     }
-
-    /*
-    if (calories >= caloriesRDA) {
-        return 0;
-    } else {
-        return caloriesRDA - calories + " cals left";
-    }
-    */
 }
+
 function getTodaysDate() {
     let todaysDate = format(new Date(), "EEEE, do MMMM");
     return todaysDate;
+}
+
+function getAnimatedCircleFillValue(tc, cg) {
+    return tc >= cg ? 100 : (tc / cg) * 100;
 }
 
 // TODO: Put into its own file
