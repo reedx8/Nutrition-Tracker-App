@@ -94,6 +94,61 @@ const History = () => {
                 renderItem={({ item }) => (
                     <View
                         style={{
+                            flexDirection: "column",
+                            margin: 3,
+                        }}
+                    >
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                backgroundColor: "#1F1F1F",
+                                borderRadius: 10,
+                                padding: 5,
+                            }}
+                        >
+                            <Text style={styles.daysTitle}>
+                                {format(parseISO(item.createdAt), "eeee")}
+                            </Text>
+                            <Text style={styles.defaultSubText}>
+                                {format(parseISO(item.createdAt), "PP")}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                            }}
+                        >
+                            <View style={{ flexDirection: "column" }}>
+                                <Text style={styles.number}>
+                                    {item.totalCalories}
+                                </Text>
+                                <Text style={styles.defaultText}>Cals</Text>
+                            </View>
+                            <View style={{ flexDirection: "column" }}>
+                                <Text style={styles.number}>
+                                    {item.totalProtein}
+                                </Text>
+                                <Text style={styles.defaultText}>Protein</Text>
+                            </View>
+                            <View style={{ flexDirection: "column" }}>
+                                <Text style={styles.number}>
+                                    {item.totalFats}
+                                </Text>
+                                <Text style={styles.defaultText}>Fats</Text>
+                            </View>
+                            <View style={{ flexDirection: "column" }}>
+                                <Text style={styles.number}>
+                                    {item.totalCarbs}
+                                </Text>
+                                <Text style={styles.defaultText}>Carbs</Text>
+                            </View>
+                        </View>
+                    </View>
+                    /*
+                    <View
+                        style={{
                             flexDirection: "row",
                             justifyContent: "space-between",
                             margin: 10,
@@ -113,6 +168,7 @@ const History = () => {
                             </Text>
                         </View>
                     </View>
+                    */
                 )}
                 ListEmptyComponent={
                     <View
@@ -152,13 +208,22 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     horizontal: {},
+    daysTitle: {
+        color: "deepskyblue",
+        fontSize: 24,
+    },
     defaultText: {
-        color: "white",
-        fontSize: 22,
+        color: "grey",
+        fontSize: 19,
     },
     defaultSubText: {
-        color: "lightgrey",
-        fontSize: 13,
+        color: "white",
+        fontSize: 15,
+    },
+    number: {
+        color: "grey",
+        fontSize: 19,
+        textAlign: "center",
     },
     emptyText: {
         color: "white",

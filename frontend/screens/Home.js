@@ -25,7 +25,6 @@ const userURL = "http://localhost:5000/users/getUsersAccountData/";
 const caloriesRDA = 2500;
 
 const Home = ({ navigation }) => {
-    // To get total calories from the log database, by using React hooks.
     const [totalCalories, setTotalCalories] = React.useState(0);
     const [totalProtein, setTotalProtein] = React.useState(0);
     const [totalFats, setTotalFats] = React.useState(0);
@@ -227,14 +226,6 @@ const Home = ({ navigation }) => {
                             totalCalories,
                             calorieGoal
                         )}
-                        //fill={(totalCalories / calorieGoal) * 100}
-                        /*
-                        fill={() =>
-                            totalCalories >= calorieGoal
-                                ? 100
-                                : (totalCalories / calorieGoal) * 100
-                        }
-                        */
                         backgroundWidth={22}
                         tintColor={
                             totalCalories > calorieGoal
