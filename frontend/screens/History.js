@@ -102,6 +102,7 @@ const History = () => {
                             style={{
                                 flexDirection: "row",
                                 justifyContent: "space-between",
+                                alignItems: "center",
                                 backgroundColor: "#1F1F1F",
                                 borderRadius: 10,
                                 padding: 5,
@@ -118,6 +119,7 @@ const History = () => {
                             style={{
                                 flexDirection: "row",
                                 justifyContent: "space-between",
+                                marginTop: 2,
                             }}
                         >
                             <View style={{ flexDirection: "column" }}>
@@ -196,6 +198,7 @@ const History = () => {
         </SafeAreaView>
     );
 };
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -219,6 +222,7 @@ const styles = StyleSheet.create({
     defaultSubText: {
         color: "white",
         fontSize: 15,
+        //textAlignVertical: "bottom",
     },
     number: {
         color: "grey",
