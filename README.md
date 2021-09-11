@@ -6,12 +6,13 @@ iOS app made with React native, managed by Expo.
 Dependancy list: TBD
 
 ## Follow the below steps to run app:
-  1. `npm install -g expo-cli` in project folder
-  2. `cd backend` -> `npm install`
-  3. `cd frontend` -> `npm install`
-  4. In backend foloder, run `nodemon server`
-  5. 2 options to view app. Either...
-      1. Run on xcode simulator -> `expo start --ios`
-      2. OR, download Expo Go on your phone, then scan QR code. 
+  1. (If Expo not installed) `npm install -g expo-cli` in project folder
+      - See www.expo.dev
+  3. `cd backend` -> `npm install`
+  4. `cd frontend` -> `npm install`
+  5. In backend folder, type `nodemon server`
+  6. 2 options to view app. Either...
+      1. (Recommended) To run on Xcode simulator,  type in frontend folder -> `expo start --ios`
+      2. Or, download Expo Go on your phone, then scan QR code. 
 
 
