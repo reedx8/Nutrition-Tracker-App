@@ -16,6 +16,7 @@ import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import { Appbar, Button, Title, BottomNavigation } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen"
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -177,14 +178,15 @@ const Home = ({ navigation }) => {
             */}
             <StatusBar barStyle="light-content" />
             <View style={styles.header}>
-                <View style={{ flexDirection: "column", width: "65%" }}>
-                    <Text style={{ color: "white", fontSize: 25 }}>Today</Text>
+                <View style={{ flexDirection: "column", width: wp(62),/*width: "65%"*/ }}>
+                    <Text style={{ color: "white", fontSize: hp(3.4),/*fontSize: 25*/ }}>Today</Text>
                     <Text style={styles.setTimeText}>{getTodaysDate()}</Text>
                 </View>
                 <View
                     style={{
                         flexDirection: "column",
-                        width: "35%",
+                        width: wp(33),
+                        //width: "35%",
                         //direction: "ltr",
                         //justifyContent: "center",
                         //alignSelf: "flex-end",
@@ -238,6 +240,7 @@ const Home = ({ navigation }) => {
                                 ? "#df5234"
                                 : "deepskyblue"
                         }
+                        tintColorSecondary={"deepskyblue"} // prevents red tintColor while calculating
                         rotation={360}
                         lineCap="round"
                         backgroundColor="#1F1F1F"
@@ -247,7 +250,8 @@ const Home = ({ navigation }) => {
                             <Text
                                 style={{
                                     color: "white",
-                                    fontSize: 20,
+                                    //fontSize: 20,
+                                    fontSize: hp(2.4),
                                 }}
                             >
                                 {getRemainingCalories(
@@ -312,7 +316,7 @@ const Home = ({ navigation }) => {
                     </View>
                 </View>
                 <View style={styles.macronutrientsSection}>
-                    <Title style={{ color: "white" }}>Macronutrients</Title>
+                    <Title style={{ color: "white", fontSize: hp(2), }}>Macronutrients</Title>
                     <View style={styles.macrosCol}>
                         <View style={styles.macrosInnerRow}>
                             <Text style={styles.nutrientTitle}>Protein</Text>
@@ -414,18 +418,19 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: "row",
         //justifyContent: "space-between",
-        padding: 20,
+        //padding: 15,
+        margin: 10, 
         width: "100%",
     },
     circularCaloriesSection: {
         flexDirection: "row",
         justifyContent: "center",
-        padding: 20,
+        padding: 15,
         //flex: 2,
     },
     totalCalsText: {
-        // DELETE
         color: "lightgrey",
+        fontSize: hp(1.8),
     },
     calorieBreakdownSection: {
         flexDirection: "row",
@@ -466,7 +471,8 @@ const styles = StyleSheet.create({
     },
     setTimeText: {
         color: "grey",
-        fontSize: 20,
+        fontSize: hp(2),
+        //fontSize: 20,
     },
     setUserIcon: {
         height: 34,
@@ -474,12 +480,13 @@ const styles = StyleSheet.create({
     },
     nutrientTitle: {
         color: "lightgrey",
-        fontSize: 17,
-        //fontWeight: "400",
+        fontSize: hp(2.1),
+        //fontSize: 17,
     },
     nutrientNumber: {
         color: "lightgreen",
-        fontSize: 20,
+        fontSize: hp(2.5),
+        //fontSize: 20,
         fontWeight: "300",
     },
 });
