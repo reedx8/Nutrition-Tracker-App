@@ -36,6 +36,7 @@ const Home = ({ navigation }) => {
     const [currentUsersID, setCurrentUsersID] = React.useState("");
     const [refreshing, setRefreshing] = React.useState(false);
     const [calorieGoal, setCalorieGoal] = React.useState(0);
+    const [animatedCircleValue, setCircleValue] = React.useState(null);
 
     const getData = async () => {
         try {
@@ -57,6 +58,7 @@ const Home = ({ navigation }) => {
         React.useCallback(() => {
             getUsersNutritionData();
             getNutritionGoals();
+            getAnimatedCircleFillValue();
         })
     );
 
@@ -145,6 +147,12 @@ const Home = ({ navigation }) => {
         });
     }
 
+    function getAnimatedCircleFillValue() {
+        setCircleValue(() => {
+            return totalCalories >= calorieGoal ? 100 : (totalCalories / calorieGoal) * 100;
+        })
+    }
+
     const wait = (timeout) => {
         return new Promise((resolve) => setTimeout(resolve, timeout));
     };
@@ -153,6 +161,7 @@ const Home = ({ navigation }) => {
         setRefreshing(true);
         getUsersNutritionData();
         getNutritionGoals();
+        getAnimatedCircleFillValue();
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
@@ -222,10 +231,7 @@ const Home = ({ navigation }) => {
                     <AnimatedCircularProgress
                         size={200}
                         width={15}
-                        fill={getAnimatedCircleFillValue(
-                            totalCalories,
-                            calorieGoal
-                        )}
+                        fill={animatedCircleValue == null ? 0: animatedCircleValue}
                         backgroundWidth={22}
                         tintColor={
                             totalCalories > calorieGoal
@@ -392,9 +398,11 @@ function getTodaysDate() {
     return todaysDate;
 }
 
+/*
 function getAnimatedCircleFillValue(tc, cg) {
     return tc >= cg ? 100 : (tc / cg) * 100;
 }
+*/
 
 // TODO: Put into its own file
 const styles = StyleSheet.create({
