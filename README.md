@@ -11,7 +11,8 @@ Dependancy list: TBD
   3. `cd backend` -> `npm install`
   4. `cd frontend` -> `npm install`
   5. In backend folder, type `nodemon server`
-  6. 2 options to view app. Either...
+      - May need to install nodemon -> `npm install -g nodemon`
+  7. 2 options to view app. Either...
       1. (Recommended) To run on Xcode simulator,  type in frontend folder -> `expo start --ios`
       2. Or, download Expo Go on your phone, then scan QR code. 
 
