@@ -26,6 +26,8 @@
     "react-native-circular-progress": "^1.3.7",
     "react-native-floating-action": "^1.21.0",
     "react-native-gesture-handler": "~1.10.2",
+    "react-native-keyboard-avoiding-scroll-view": "^1.0.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-paper": "^4.9.2",
     "react-native-really-awesome-button": "^1.6.0",
     "react-native-reanimated": "~2.2.0",
@@ -34,7 +36,8 @@
     "react-native-screens": "~3.4.0",
     "react-native-svg": "^12.1.1",
     "react-native-unimodules": "~0.14.5",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "rn-keyboard-avoider": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
