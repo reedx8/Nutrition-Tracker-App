@@ -8,11 +8,13 @@ import {
     StyleSheet,
     StatusBar,
     SafeAreaView,
+    ScrollView,
 } from "react-native";
 import axios from "axios";
 import AwesomeButton from "react-native-really-awesome-button";
 import { RadioButton, Caption, Appbar } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const urlLog = "http://localhost:5000/log/add";
 
@@ -146,11 +148,8 @@ const Log = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : null}
-            >
-                <StatusBar barStyle="light-content" />
-
+            <KeyboardAwareScrollView>
+            <StatusBar barStyle="light-content" />
                 {/*
                 <Appbar.Header>
                     <Appbar.Content title="Log food" />
@@ -217,6 +216,7 @@ const Log = ({ navigation }) => {
                             color="deepskyblue"
                         />
                     </RadioButton.Group>
+
                     <Text style={styles.titleText}>Nutrient Entry</Text>
                     <Caption
                         style={{
@@ -229,7 +229,6 @@ const Log = ({ navigation }) => {
                         Enter in values as they appear on the Nutrition Facts.
                         You can enter in serving size later.
                     </Caption>
-
                     <View style={styles.entriesRow}>
                         <Text style={styles.defaultText}>Calories:</Text>
                         <TextInput
@@ -286,6 +285,7 @@ const Log = ({ navigation }) => {
                             clearButtonMode="always"
                         />
                     </View>
+                    {/*
                     <View
                         style={{
                             flexDirection: "row",
@@ -304,8 +304,29 @@ const Log = ({ navigation }) => {
                             LOG
                         </AwesomeButton>
                     </View>
+                    */}
                 </View>
-            </KeyboardAvoidingView>
+                <View
+                        style={{
+                            flexDirection: "row",
+                            alignSelf: "center",
+                            paddingTop: 10,
+                        }}
+                    >
+                        <AwesomeButton
+                            backgroundColor="deepskyblue"
+                            backgroundDarker="#1F1F1F"
+                            stretch={true}
+                            textSize={18}
+                            textColor="white"
+                            onPress={() => onSaveLog()}
+                        >
+                            LOG
+                        </AwesomeButton>
+                    </View>
+            {/*</KeyboardAvoidingView>*/}
+            {/*</KeyboardAvoidingScrollView>*/}
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     );
 };
@@ -339,8 +360,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: "#1F1F1F",
-        height: "7%",
+        //height: "7%",
         borderRadius: 10,
+        margin: 1,
         //padding: 5,
     },
     radioButtonRow: {
@@ -348,6 +370,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         backgroundColor: "#1F1F1F",
         height: "8%",
+        //margin: 1,
         color: "white",
     },
     titleText: {
