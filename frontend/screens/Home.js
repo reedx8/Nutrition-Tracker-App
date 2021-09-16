@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
     async function getNutritionGoals() {
         try {
             const response = await axios.get(userURL + currentUsersID);
-            //console.log(response.data);
+
             setCalorieGoal(() => {
                 if (response.data.goals.calories == null) {
                     return 0;
