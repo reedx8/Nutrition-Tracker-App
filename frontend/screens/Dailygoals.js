@@ -66,6 +66,10 @@ const Dailygoals = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="light-content" />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "position" : null}
+                keyboardVerticalOffset={1}
+            >
             <Text
                 style={{
                     color: "white",
@@ -79,10 +83,6 @@ const Dailygoals = ({ navigation }) => {
                 Enter in your daily nutrition goals below. You can change them
                 at any time.
             </Text>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : null}
-                keyboardVerticalOffset={10}
-            >
                 <View style={styles.entriesRow}>
                     <Text style={styles.defaultText}>Daily calories</Text>
                     <TextInput
@@ -139,7 +139,19 @@ const Dailygoals = ({ navigation }) => {
                         defaultValue="0"
                     />
                 </View>
+                <AwesomeButton
+                backgroundColor="deepskyblue"
+                backgroundDarker="#1F1F1F"
+                stretch={true}
+                textSize={20}
+                textColor="white"
+                style={{marginTop: 5, marginBottom: 5}}
+                onPress={() => onSubmitPress()}
+            >
+                Submit
+            </AwesomeButton>
             </KeyboardAvoidingView>
+            {/*
             <AwesomeButton
                 backgroundColor="deepskyblue"
                 backgroundDarker="#1F1F1F"
@@ -150,6 +162,7 @@ const Dailygoals = ({ navigation }) => {
             >
                 Submit
             </AwesomeButton>
+            */}
         </SafeAreaView>
     );
 };
@@ -169,6 +182,7 @@ const styles = StyleSheet.create({
         color: "grey",
         fontSize: 18,
         textAlign: "center",
+        margin: 10,
     },
     entriesRow: {
         flexDirection: "row",
