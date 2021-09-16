@@ -9,6 +9,7 @@ import {
     SafeAreaView,
     ScrollView,
     RefreshControl,
+    ActivityIndicator,
 } from "react-native";
 import { format } from "date-fns";
 import { FloatingAction } from "react-native-floating-action";
@@ -17,6 +18,7 @@ import { useIsFocused, useFocusEffect } from "@react-navigation/native";
 import { Appbar, Button, Title, BottomNavigation } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen"
+import { is } from "date-fns/locale";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -38,6 +40,7 @@ const Home = ({ navigation }) => {
     const [refreshing, setRefreshing] = React.useState(false);
     const [calorieGoal, setCalorieGoal] = React.useState(0);
     const [animatedCircleValue, setCircleValue] = React.useState(null);
+    const [isLoading, setLoading] = React.useState(true); // helps on first render after signin
 
     const getData = async () => {
         try {
@@ -66,7 +69,7 @@ const Home = ({ navigation }) => {
     async function getNutritionGoals() {
         try {
             const response = await axios.get(userURL + currentUsersID);
-            //console.log(response.data);
+
             setCalorieGoal(() => {
                 if (response.data.goals.calories == null) {
                     return 0;
@@ -146,6 +149,8 @@ const Home = ({ navigation }) => {
         setTotalCalories(() => {
             return totalCals;
         });
+
+        setLoading(false);
     }
 
     function getAnimatedCircleFillValue() {
@@ -165,6 +170,14 @@ const Home = ({ navigation }) => {
         getAnimatedCircleFillValue();
         wait(2000).then(() => setRefreshing(false));
     }, []);
+
+    if (isLoading == true){
+        return(
+            <SafeAreaView style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="lightgrey"/>
+            </SafeAreaView>
+        )
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -414,6 +427,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         backgroundColor: "#000000",
+    },
+    loadingContainer: {
+        flex: 1,
+        backgroundColor: "#000000",
+        justifyContent: "center",
     },
     header: {
         flexDirection: "row",
