@@ -15,6 +15,7 @@ import AwesomeButton from "react-native-really-awesome-button";
 import { RadioButton, Caption, Appbar } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from "react-native-responsive-screen"
 
 const urlLog = "http://localhost:5000/log/add";
 
@@ -158,7 +159,7 @@ const Log = ({ navigation }) => {
                 */}
                 <View style={styles.inner}>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Food name: </Text>
+                        <Text style={styles.defaultText}>Food name</Text>
                         <TextInput
                             style={styles.inputBox}
                             placeholder="required"
@@ -182,7 +183,7 @@ const Log = ({ navigation }) => {
                                     : "unchecked"
                             }
                             onPress={() => setChecked(value)}
-                            labelStyle={{ color: "white" }}
+                            labelStyle={{ color: "white", fontSize: hp(2.1) }}
                             color="deepskyblue"
                         />
                         <RadioButton.Item
@@ -192,7 +193,7 @@ const Log = ({ navigation }) => {
                                 checked === "lunch" ? "checked" : "unchecked"
                             }
                             onPress={() => setChecked(value)}
-                            labelStyle={{ color: "white" }}
+                            labelStyle={{ color: "white", fontSize: hp(2.1) }}
                             color="deepskyblue"
                         />
                         <RadioButton.Item
@@ -202,7 +203,7 @@ const Log = ({ navigation }) => {
                                 checked === "dinner" ? "checked" : "unchecked"
                             }
                             onPress={() => setChecked(value)}
-                            labelStyle={{ color: "white" }}
+                            labelStyle={{ color: "white", fontSize: hp(2.1) }}
                             color="deepskyblue"
                         />
                         <RadioButton.Item
@@ -212,7 +213,7 @@ const Log = ({ navigation }) => {
                                 checked === "snacks" ? "checked" : "unchecked"
                             }
                             onPress={() => setChecked(value)}
-                            labelStyle={{ color: "white" }}
+                            labelStyle={{ color: "white", fontSize: hp(2.1)}}
                             color="deepskyblue"
                         />
                     </RadioButton.Group>
@@ -230,7 +231,7 @@ const Log = ({ navigation }) => {
                         You can enter in serving size later.
                     </Caption>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Calories:</Text>
+                        <Text style={styles.defaultText}>Calories</Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -244,7 +245,7 @@ const Log = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Protein:</Text>
+                        <Text style={styles.defaultText}>Protein</Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -258,7 +259,7 @@ const Log = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Fats:</Text>
+                        <Text style={styles.defaultText}>Fats</Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -272,7 +273,7 @@ const Log = ({ navigation }) => {
                         />
                     </View>
                     <View style={styles.entriesRow}>
-                        <Text style={styles.defaultText}>Carbs:</Text>
+                        <Text style={styles.defaultText}>Carbs</Text>
                         <TextInput
                             style={styles.inputBox}
                             keyboardType="number-pad"
@@ -305,27 +306,26 @@ const Log = ({ navigation }) => {
                         </AwesomeButton>
                     </View>
                     */}
-                </View>
                 <View
                         style={{
                             flexDirection: "row",
                             alignSelf: "center",
-                            paddingTop: 10,
+                            paddingTop: 5,
                         }}
                     >
                         <AwesomeButton
                             backgroundColor="deepskyblue"
                             backgroundDarker="#1F1F1F"
                             stretch={true}
-                            textSize={18}
+                            textSize={18} 
                             textColor="white"
                             onPress={() => onSaveLog()}
                         >
                             LOG
                         </AwesomeButton>
                     </View>
-            {/*</KeyboardAvoidingView>*/}
-            {/*</KeyboardAvoidingScrollView>*/}
+                </View>
+
             </KeyboardAwareScrollView>
         </SafeAreaView>
     );
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
         color: "white",
     },
     titleText: {
-        fontSize: 30,
+        fontSize: hp(3.8), // 30
         fontWeight: "bold",
         color: "white",
         paddingLeft: 10,
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     defaultText: {
         color: "white",
         //paddingLeft: 10,
-        fontSize: 19,
+        fontSize: hp(2.3), //19
         padding: 10, // centers only text in row
     },
 });

@@ -46,13 +46,13 @@ function homeTabView() {
                 showLabel: false,
                 style: {
                     position: "absolute",
-                    bottom: 25,
-                    left: 20,
-                    right: 20,
+                    bottom: 0, //25
+                    left: 0, // 20
+                    right: 0, // 20
                     elevation: 0,
                     backgroundColor: "#1F1F1F",
-                    borderRadius: 12,
-                    height: 78,
+                    borderRadius: 0, // 12
+                    height: 70, // 78
                     ...styles.shadow,
                 },
             }}
@@ -89,7 +89,7 @@ function homeTabView() {
                     tabBarIcon: ({ focused }) => (
                         <Button
                             icon="plus-box"
-                            labelStyle={{ fontSize: 70, color: "#df5234" }}
+                            labelStyle={{ fontSize: 65, color: "#df5234" }}
                         ></Button>
                     ),
                     tabBarButton: (props) => <CustomTabBarButton {...props} />,
@@ -126,7 +126,7 @@ function homeTabView() {
 const CustomTabBarButton = ({ children, onPress }) => (
     <TouchableOpacity
         style={{
-            top: -30,
+            top: -20,
             justifyContent: "center",
             alignItems: "center",
             ...styles.shadow,
