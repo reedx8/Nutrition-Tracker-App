@@ -489,12 +489,18 @@ const MacrosSection = ({
       <View style={styles.macrosCol}>
         <Text style={styles.macrosTitle}>Protein</Text>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={styles.macrosNumber}>{totalProtein}</Text>
+          <Text style={styles.macrosNumber}>
+            {isNaN(totalProtein) ? 0 : totalProtein}
+          </Text>
           <Text style={styles.totalText}> /{proteinGoal} g</Text>
         </View>
         <ProgressBar
           progress={
-            totalProtein >= proteinGoal ? 1 : totalProtein / proteinGoal
+            isNaN(totalProtein)
+              ? 0
+              : totalProtein >= proteinGoal
+              ? 1
+              : totalProtein / proteinGoal
           }
           color={"lightgreen"}
           style={{ height: hp(0.3) }}
@@ -503,11 +509,15 @@ const MacrosSection = ({
       <View style={styles.macrosCol}>
         <Text style={styles.macrosTitle}>Fat</Text>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={styles.macrosNumber}>{totalFat}</Text>
+          <Text style={styles.macrosNumber}>
+            {isNaN(totalFat) ? 0 : totalFat}
+          </Text>
           <Text style={styles.totalText}> /{fatGoal} g</Text>
         </View>
         <ProgressBar
-          progress={totalFat >= fatGoal ? 1 : totalFat / fatGoal}
+          progress={
+            isNaN(totalFat) ? 0 : totalFat >= fatGoal ? 1 : totalFat / fatGoal
+          }
           color={"lightgreen"}
           style={{ height: hp(0.3) }}
         />
@@ -515,11 +525,19 @@ const MacrosSection = ({
       <View style={styles.macrosCol}>
         <Text style={styles.macrosTitle}>Carbs</Text>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={styles.macrosNumber}>{totalCarbs}</Text>
+          <Text style={styles.macrosNumber}>
+            {isNaN(totalCarbs) ? 0 : totalCarbs}
+          </Text>
           <Text style={styles.totalText}> /{carbsGoal} g</Text>
         </View>
         <ProgressBar
-          progress={totalCarbs >= carbsGoal ? 1 : totalCarbs / carbsGoal}
+          progress={
+            isNaN(totalCarbs)
+              ? 0
+              : totalCarbs >= carbsGoal
+              ? 1
+              : totalCarbs / carbsGoal
+          }
           color={"lightgreen"}
           style={{ height: hp(0.3) }}
         />
