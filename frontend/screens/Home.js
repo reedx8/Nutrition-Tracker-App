@@ -28,6 +28,15 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { is } from "date-fns/locale";
+import {
+  GREYBG,
+  GREY,
+  RED,
+  BLACK,
+  GREEN,
+  BLUE,
+  LTGREY,
+} from "../config/constants";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const userIcon = require("../assets/userIcon.png");
@@ -273,7 +282,7 @@ const Home = ({ navigation }) => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor="lightgrey"
+            tintColor={LTGREY}
             title="Fetching new nutrition data..."
             titleColor="lightgrey"
           />
@@ -289,7 +298,7 @@ const Home = ({ navigation }) => {
             tintColorSecondary={"deepskyblue"} // prevents red tintColor while calculating
             rotation={360}
             lineCap="round"
-            backgroundColor="#1F1F1F"
+            backgroundColor={GREYBG}
             //prefill={10}
           >
             {
@@ -457,7 +466,7 @@ function getRemainingCalories(totalCalories, calorieGoal) {
         ></Button>
         <Text
           style={{
-            color: "grey",
+            color: GREY,
             fontSize: hp(1.6),
             alignSelf: "center",
             marginLeft: -9,
@@ -502,7 +511,7 @@ const MacrosSection = ({
               ? 1
               : totalProtein / proteinGoal
           }
-          color={"lightgreen"}
+          color={GREEN}
           style={{ height: hp(0.3) }}
         />
       </View>
@@ -518,7 +527,7 @@ const MacrosSection = ({
           progress={
             isNaN(totalFat) ? 0 : totalFat >= fatGoal ? 1 : totalFat / fatGoal
           }
-          color={"lightgreen"}
+          color={GREEN}
           style={{ height: hp(0.3) }}
         />
       </View>
@@ -538,7 +547,7 @@ const MacrosSection = ({
               ? 1
               : totalCarbs / carbsGoal
           }
-          color={"lightgreen"}
+          color={GREEN}
           style={{ height: hp(0.3) }}
         />
       </View>
@@ -578,7 +587,7 @@ const styles = StyleSheet.create({
     //flex: 2,
   },
   totalCalsText: {
-    color: "lightgrey",
+    color: LTGREY,
     fontSize: hp(1.8),
   },
   calorieBreakdownSection: {
@@ -587,7 +596,8 @@ const styles = StyleSheet.create({
     //width: "100%",
     //height: "30%",
     margin: 10,
-    backgroundColor: "#1F1F1F",
+    //backgroundColor: "#1F1F1F",
+    backgroundColor: GREYBG,
     justifyContent: "space-between",
     borderRadius: 10,
     padding: 15, // CHANGE?
@@ -625,7 +635,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   setTimeText: {
-    color: "grey",
+    color: GREY,
     fontSize: hp(2),
     //fontSize: 20,
   },
@@ -634,29 +644,29 @@ const styles = StyleSheet.create({
     width: 34,
   },
   nutrientTitle: {
-    color: "lightgrey",
+    color: LTGREY,
     fontSize: hp(2.1),
     //fontSize: 17,
   },
   nutrientNumber: {
-    color: "lightgreen",
+    color: GREEN,
     fontSize: hp(2.5),
     //fontSize: 20,
     fontWeight: "300",
   },
   macrosTitle: {
-    color: "lightgrey",
+    color: LTGREY,
     fontSize: hp(2.1),
     textAlign: "center",
   },
   macrosNumber: {
-    color: "lightgreen",
+    color: GREEN,
     fontSize: hp(3.5),
     fontWeight: "300",
     //alignSelf: "center",
   },
   totalText: {
-    color: "grey",
+    color: GREY,
     fontSize: hp(1.7),
   },
 });
