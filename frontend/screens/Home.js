@@ -216,7 +216,7 @@ const Home = ({ navigation }) => {
   if (isLoading == true) {
     return (
       <SafeAreaView style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="lightgrey" />
+        <ActivityIndicator size="large" color={LTGREY} />
       </SafeAreaView>
     );
   }
@@ -255,7 +255,7 @@ const Home = ({ navigation }) => {
             icon="account-circle"
             mode="text"
             labelStyle={{
-              color: "lightgrey",
+              color: LTGREY,
               fontSize: 17, // adjusts text and icon size
             }}
             contentStyle={{}}
@@ -270,7 +270,7 @@ const Home = ({ navigation }) => {
                 <Button
                     icon="account-circle"
                     mode="text"
-                    labelStyle={{ color: "grey" }}
+                    labelStyle={{ color: GREY }}
                 >
                     Profile
                 </Button>
@@ -284,7 +284,7 @@ const Home = ({ navigation }) => {
             onRefresh={onRefresh}
             tintColor={LTGREY}
             title="Fetching new nutrition data..."
-            titleColor="lightgrey"
+            titleColor={LTGREY}
           />
         }
       >
@@ -294,8 +294,8 @@ const Home = ({ navigation }) => {
             width={15}
             fill={animatedCircleValue == null ? 0 : animatedCircleValue}
             backgroundWidth={22}
-            tintColor={totalCalories > calorieGoal ? "#df5234" : "deepskyblue"}
-            tintColorSecondary={"deepskyblue"} // prevents red tintColor while calculating
+            tintColor={totalCalories > calorieGoal ? RED : BLUE}
+            tintColorSecondary={BLUE} // prevents red tintColor while calculating
             rotation={360}
             lineCap="round"
             backgroundColor={GREYBG}
@@ -409,7 +409,7 @@ const Home = ({ navigation }) => {
             <View>
                 <FloatingAction
                     onPressMain={() => navigation.navigate("Log")}
-                    color="deepskyblue"
+                    color={BLUE}
                     //animated={false}
                     buttonSize={65}
                     iconHeight={20}
@@ -566,11 +566,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#000000",
+    backgroundColor: BLACK,
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: BLACK,
     justifyContent: "center",
   },
   header: {
@@ -615,7 +615,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     //flex: 2,
     //alignSelf: "center",
-    //backgroundColor: "#1F1F1F",
+    //backgroundColor: GREYBG,
     //borderRadius: 10,
     //width: "100%",
     //margin: 10,
