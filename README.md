@@ -1,7 +1,7 @@
 # Nutrition-Tracker-App
 iOS app made with React native, managed by Expo.
 
-![Demo](https://user-images.githubusercontent.com/29593134/134604328-14cff713-f5cc-4e63-8036-64ac4855247a.mp4)
+![Demo](https://user-images.githubusercontent.com/29593134/216832986-bb706aa3-013d-44ae-adb5-e3851d106fa2.mp4)
 
 Dependancy list: TBD
 
